@@ -107,7 +107,7 @@ public class PipelineConfigurationTest extends AbstractSeveralPipelineRunningTes
             .ensure(combobox("Price type"), have(selectedValue("On-demand")));
     }
 
-    @CloudProviderOnly(Cloud.AWS)
+    @CloudProviderOnly(values = {Cloud.AWS, Cloud.GCP})
     @Test
     @TestCase("EPMCMBIBPC-1257")
     public void changeInstancePriceTypeToSpotInConfigurationFile() {
@@ -128,7 +128,7 @@ public class PipelineConfigurationTest extends AbstractSeveralPipelineRunningTes
             .ensure(combobox("Price type"), have(selectedValue("Spot")));
     }
 
-    @CloudProviderOnly(Cloud.AWS)
+    @CloudProviderOnly(values = {Cloud.AWS, Cloud.GCP})
     @Test
     @TestCase("EPMCMBIBPC-1263")
     public void validationOfDefaultPriceType() {
@@ -142,7 +142,7 @@ public class PipelineConfigurationTest extends AbstractSeveralPipelineRunningTes
             .ensure(menu(), contains(menuitem("Spot"), menuitem("On-demand")));
     }
 
-    @CloudProviderOnly(Cloud.AWS)
+    @CloudProviderOnly(values = {Cloud.AWS, Cloud.GCP})
     @Test
     @TestCase("EPMCMBIBPC-1241")
     public void validationOfRunPipelineUsingOnDemandInstance() {
