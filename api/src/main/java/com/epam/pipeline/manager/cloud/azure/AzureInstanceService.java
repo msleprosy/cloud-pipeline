@@ -27,10 +27,9 @@ import com.epam.pipeline.manager.CmdExecutor;
 import com.epam.pipeline.manager.cloud.CloudInstanceService;
 import com.epam.pipeline.manager.cloud.CommonCloudInstanceService;
 import com.epam.pipeline.manager.cloud.commands.AbstractClusterCommand;
+import com.epam.pipeline.manager.cloud.commands.ClusterCommandService;
 import com.epam.pipeline.manager.cloud.commands.NodeUpCommand;
 import com.epam.pipeline.manager.cloud.commands.RunIdArgCommand;
-import com.epam.pipeline.manager.cluster.KubernetesConstants;
-import com.epam.pipeline.manager.cluster.KubernetesManager;
 import com.epam.pipeline.manager.execution.SystemParams;
 import com.epam.pipeline.manager.parallel.ParallelExecutorService;
 import com.epam.pipeline.manager.preference.PreferenceManager;
@@ -38,13 +37,10 @@ import com.epam.pipeline.manager.preference.SystemPreferences;
 import com.epam.pipeline.manager.region.CloudRegionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -59,7 +55,7 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
     private static final String AZURE_RESOURCE_GROUP = "AZURE_RESOURCE_GROUP";
     private final CommonCloudInstanceService instanceService;
     private final AzureVMService vmService;
-    private final KubernetesManager kubernetesManager;
+    private final ClusterCommandService commandService;
     private final PreferenceManager preferenceManager;
     private final CloudRegionManager cloudRegionManager;
     private final ParallelExecutorService executorService;
@@ -72,9 +68,9 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
     private final String kubeToken;
 
     public AzureInstanceService(final CommonCloudInstanceService instanceService,
+                                final ClusterCommandService commandService,
                                 final PreferenceManager preferenceManager,
                                 final AzureVMService vmService,
-                                final KubernetesManager kubernetesManager,
                                 final CloudRegionManager regionManager,
                                 final ParallelExecutorService executorService,
                                 @Value("${cluster.azure.nodeup.script:}") final String nodeUpScript,
@@ -84,10 +80,10 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
                                 @Value("${kube.master.ip}") final String kubeMasterIP,
                                 @Value("${kube.kubeadm.token}") final String kubeToken) {
         this.instanceService = instanceService;
+        this.commandService = commandService;
         this.cloudRegionManager = regionManager;
         this.preferenceManager = preferenceManager;
         this.vmService = vmService;
-        this.kubernetesManager = kubernetesManager;
         this.executorService = executorService;
         this.nodeUpScript = nodeUpScript;
         this.nodeDownScript = nodeDownScript;
@@ -121,8 +117,17 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
     }
 
     @Override
+    public boolean reassignNode(final AzureRegion region, final Long oldId, final Long newId) {
+        final String command = commandService.buildNodeReassignCommand(
+                nodeReassignScript, oldId, newId, getProvider().name());
+        return instanceService.runNodeReassignScript(cmdExecutor, command, oldId, newId,
+                buildScriptAzureEnvVars(region));
+    }
+
+    @Override
     public void terminateNode(final AzureRegion region, final String internalIp, final String nodeName) {
-        final String command = instanceService.buildTerminateNodeCommand(internalIp, nodeName, nodeTerminateScript);
+        final String command = commandService.buildTerminateNodeCommand(nodeTerminateScript, internalIp, nodeName,
+                getProviderName());
         final Map<String, String> envVars = buildScriptAzureEnvVars(region);
         CompletableFuture.runAsync(() -> instanceService.runTerminateNodeScript(command, cmdExecutor, envVars),
                 executorService.getExecutorService());
@@ -150,18 +155,7 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
 
     @Override
     public LocalDateTime getNodeLaunchTime(final AzureRegion region, final Long runId) {
-        return kubernetesManager.findNodeByRunId(String.valueOf(runId))
-                .map(node -> node.getMetadata().getCreationTimestamp())
-                .filter(StringUtils::isNotBlank)
-                .map(timestamp -> {
-                    try {
-                        return ZonedDateTime.parse(timestamp, KubernetesConstants.KUBE_DATE_FORMATTER)
-                                .toLocalDateTime();
-                    } catch (DateTimeParseException e) {
-                        log.error("Failed to parse date from Kubernetes API: {}", timestamp);
-                        return null;
-                    }
-                }).orElse(null);
+        return instanceService.getNodeLaunchTimeFromKube(runId);
     }
 
     @Override
@@ -188,12 +182,6 @@ public class AzureInstanceService implements CloudInstanceService<AzureRegion> {
             log.error("An error while getting instance description {}", nodeLabel);
             return null;
         }
-    }
-
-    @Override
-    public boolean reassignNode(final AzureRegion region, final Long oldId, final Long newId) {
-        return instanceService.runNodeReassignScript(
-                oldId, newId, cmdExecutor, nodeReassignScript, buildScriptAzureEnvVars(region));
     }
 
     @Override

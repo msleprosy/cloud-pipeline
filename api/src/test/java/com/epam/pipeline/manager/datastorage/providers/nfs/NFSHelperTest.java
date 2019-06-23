@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.epam.pipeline.manager.datastorage.providers;
+package com.epam.pipeline.manager.datastorage.providers.nfs;
 
 import com.epam.pipeline.entity.region.AwsRegion;
 import com.epam.pipeline.entity.region.AzureRegion;
@@ -37,10 +37,10 @@ public class NFSHelperTest {
         AzureRegion azureRegion = ObjectCreatorUtils.getDefaultAzureRegion(RESOURCE_GROUP, "account");
         AzureRegionCredentials credentials = ObjectCreatorUtils.getAzureCredentials("key");
         result = NFSHelper.getNFSMountOption(azureRegion, credentials, EMPTY_STRING);
-        Assert.assertEquals(",username=account,password=key", result);
+        Assert.assertEquals("-o ,username=account,password=key", result);
 
         result = NFSHelper.getNFSMountOption(azureRegion, credentials, "options");
-        Assert.assertEquals("options,username=account,password=key", result);
+        Assert.assertEquals("-o options,username=account,password=key", result);
 
         azureRegion = ObjectCreatorUtils.getDefaultAzureRegion(RESOURCE_GROUP, null);
         result = NFSHelper.getNFSMountOption(azureRegion, null, EMPTY_STRING);
@@ -70,10 +70,12 @@ public class NFSHelperTest {
         Assert.assertEquals(TEST_PATH + ":", nfsRootPath);
         nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "/directory");
         Assert.assertEquals(TEST_PATH + ":/", nfsRootPath);
-        nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "/mnt/directory");
+        nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "/mnt/");
         Assert.assertEquals(TEST_PATH + ":/", nfsRootPath);
-        nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "mnt/directory");
+        nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "mnt/");
         Assert.assertEquals(TEST_PATH + ":", nfsRootPath);
+        nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH + ":" + "/mnt/directory");
+        Assert.assertEquals(TEST_PATH + ":/mnt/", nfsRootPath);
         nfsRootPath = NFSHelper.getNfsRootPath(TEST_PATH  + "/mnt/directory");
         Assert.assertEquals(TEST_PATH + "/mnt/", nfsRootPath);
     }
