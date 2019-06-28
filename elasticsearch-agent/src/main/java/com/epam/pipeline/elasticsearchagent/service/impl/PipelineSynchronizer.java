@@ -135,7 +135,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
     }
 
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    private void synchronizePipelineEvents(final Long pipelineId,
+    /*private*/ void synchronizePipelineEvents(final Long pipelineId,
                                            final List<PipelineEvent> events,
                                            final LocalDateTime syncStart) {
         try {
@@ -207,7 +207,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         return requestsBuilder.build();
     }
 
-    private void createIndexDocuments(final PipelineEvent event,
+    /*private*/ void createIndexDocuments(final PipelineEvent event,
                                       final String pipelineIndex,
                                       final String codeIndex,
                                       final PipelineDocRequests.PipelineDocRequestsBuilder requestsBuilder,
@@ -246,7 +246,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
     @Data
     @AllArgsConstructor
     @Builder
-    private static class PipelineDocRequests {
+    /*private*/ static class PipelineDocRequests {
 
         private List<DocWriteRequest> pipelineRequests;
         private List<DocWriteRequest> codeRequests;

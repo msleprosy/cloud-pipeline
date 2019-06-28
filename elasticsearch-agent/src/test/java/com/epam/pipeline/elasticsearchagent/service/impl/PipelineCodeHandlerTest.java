@@ -21,6 +21,7 @@ import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
 import com.epam.pipeline.elasticsearchagent.model.git.GitEventData;
+import com.epam.pipeline.elasticsearchagent.model.git.GitEventDescription;
 import com.epam.pipeline.elasticsearchagent.model.git.GitEventType;
 import com.epam.pipeline.elasticsearchagent.service.impl.converter.pipeline.PipelineCodeMapper;
 import com.epam.pipeline.elasticsearchagent.service.impl.converter.pipeline.PipelineLoader;
@@ -30,6 +31,7 @@ import com.epam.pipeline.entity.pipeline.Revision;
 import com.epam.pipeline.entity.utils.DateUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.DocWriteRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +59,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings({"PMD.TooManyStaticImports"})
@@ -78,6 +81,7 @@ class PipelineCodeHandlerTest {
     @Mock
     private ObjectMapper objectMapper;
 
+    @Mock
     private PipelineCodeHandler pipelineCodeHandler;
     private PipelineEvent expectedPipelineEvent;
     private EntityContainer<PipelineDoc> container;
@@ -138,6 +142,31 @@ class PipelineCodeHandlerTest {
                 .permissions(PERMISSIONS_CONTAINER)
                 .build();
     }
+
+/*    @Test
+    void createRequestsForVersionEvents(){
+        String expectedPath = "expectedPath";
+        List<String> expectedPathList = new ArrayList<>();
+        expectedPathList.add(expectedPath);
+        GitEventData expectedGitEventData =  GitEventData.builder()
+                .gitEventType(GitEventType.push)
+                .paths(expectedPathList)
+                .version(VERSION)
+                .build();
+        Pipeline expectedPipeline = new Pipeline();
+        GitEventDescription expectedGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+        List<GitEventDescription> expectedGitEventDescriptionList = new ArrayList<>();
+        expectedGitEventDescriptionList.add(expectedGitEventDescription);
+        DocWriteRequest docWriteRequest = new UpdateRequest();
+        List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
+        expectedListOfRequests.add(docWriteRequest);
+        when(pipelineCodeHandler.createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER))
+                .thenReturn(expectedListOfRequests);
+        pipelineCodeHandler.createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
+        assertEquals(expectedListOfRequests, expectedListOfRequests);
+        verify(pipelineCodeHandler, atLeastOnce())
+                .createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
+    }*/
 
     @Test
     void shouldProcessGitPushEventTest() throws EntityNotFoundException, IOException {

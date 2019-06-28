@@ -109,7 +109,7 @@ public class PipelineCodeHandler {
         }).orElse(Collections.emptyList());
     }
 
-    private List<DocWriteRequest> createRequestsForVersionEvents(final List<GitEventDescription> versionEvents,
+    /*private*/ List<DocWriteRequest> createRequestsForVersionEvents(final List<GitEventDescription> versionEvents,
                                                                  final String indexName,
                                                                  final Pipeline pipeline,
                                                                  final PermissionsContainer permissions) {

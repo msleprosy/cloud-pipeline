@@ -52,7 +52,7 @@ public class PipelineEventDaoUnitTest {
             Object arg0 = invocation.getArgument(0);
             assertEquals(expectedPipelineEvent, arg0);
             return null;
-        }).when(pipelineEventDao).createPipelineEvent(expectedPipelineEvent);
+        }).when(pipelineEventDao).createPipelineEvent(any(PipelineEvent.class));
         pipelineEventDao.createPipelineEvent(actualPipelineEvent);
         verify(pipelineEventDao, atLeastOnce()).createPipelineEvent(expectedPipelineEvent);
     }
