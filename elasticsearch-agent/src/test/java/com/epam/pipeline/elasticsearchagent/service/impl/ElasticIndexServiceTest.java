@@ -4,10 +4,12 @@ import com.epam.pipeline.elasticsearchagent.exception.ElasticClientException;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 
 class ElasticIndexServiceTest {
 
@@ -26,9 +28,7 @@ class ElasticIndexServiceTest {
 
     @Test
     void createIndexIfNotExist() {
-        MockitoAnnotations.initMocks(this);
         String expectedIndex = "newIndex";
-        String existingIndex = "existingIndex";
         String mappingsJson = "mappingsJson";
         try { doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
@@ -47,27 +47,32 @@ class ElasticIndexServiceTest {
 
     @Test
     void getDeleteRequestsByTerm() {
-        MockitoAnnotations.initMocks(this);
-        String test = "test";
+        String expectedField = "field";
+        String expectedValue = "value";
+        String expectedIndexName = "indexName";
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.getDeleteRequestsByTerm(test, test, test)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequestsByTerm(test, test, test);
-        assertEquals(expectedListOfRequests, expectedListOfRequests);
-        verify(elasticIndexService).getDeleteRequestsByTerm(test, test, test);
+        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
+        actualListOfRequests.add(docWriteRequest);
+        when(elasticIndexService.getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName)).thenReturn(expectedListOfRequests);
+        elasticIndexService.getDeleteRequestsByTerm("field", "value", "indexName");
+        assertEquals(expectedListOfRequests, actualListOfRequests);
+        verify(elasticIndexService).getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);
     }
 
     @Test
     void getDeleteRequests() {
-        MockitoAnnotations.initMocks(this);
-        String test = "test";
+        String expectedId = "expectedId";
+        String expectedIndexName = "expectedIndexName";
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.getDeleteRequests(test, test)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequests(test, test);
-        assertEquals(expectedListOfRequests, expectedListOfRequests);
-        verify(elasticIndexService).getDeleteRequests(test, test);
+        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
+        actualListOfRequests.add(docWriteRequest);
+        when(elasticIndexService.getDeleteRequests(expectedId, expectedIndexName)).thenReturn(expectedListOfRequests);
+        elasticIndexService.getDeleteRequests("expectedId", "expectedIndexName");
+        assertEquals(expectedListOfRequests, actualListOfRequests);
+        verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);
     }
 }
