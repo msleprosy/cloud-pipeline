@@ -97,7 +97,7 @@ public class ElasticIndexService {
         }
     }
 
-    private List<DocWriteRequest> buildDeleteRequests(final String indexName,
+    /*private*/ List<DocWriteRequest> buildDeleteRequests(final String indexName,
                                                       final SearchRequest request) {
         SearchResponse search = elasticsearchServiceClient.search(request);
         if (search.getHits().getTotalHits() == 0) {
@@ -112,18 +112,18 @@ public class ElasticIndexService {
                 .collect(Collectors.toList());
     }
 
-    private SearchRequest buildSearchRequestForConfigEntries(final String id,
+    /*private*/ SearchRequest buildSearchRequestForConfigEntries(final String id,
                                                              final String indexName) {
         final SearchSourceBuilder searchSource = new SearchSourceBuilder()
                 .query(QueryBuilders.wildcardQuery("id", getWildcardId(id)));
         return new SearchRequest(indexName).source(searchSource);
     }
 
-    private String getWildcardId(final String id) {
+    /*private*/ String getWildcardId(final String id) {
         return id + ID_DELIMITER + WILDCARD;
     }
 
-    private InputStream openJsonMapping(final String path) throws FileNotFoundException {
+    /*private*/ InputStream openJsonMapping(final String path) throws FileNotFoundException {
         if (path.startsWith(ResourceUtils.CLASSPATH_URL_PREFIX)) {
             final InputStream classPathResource = getClass().getResourceAsStream(path
                     .substring(ResourceUtils.CLASSPATH_URL_PREFIX.length()));
