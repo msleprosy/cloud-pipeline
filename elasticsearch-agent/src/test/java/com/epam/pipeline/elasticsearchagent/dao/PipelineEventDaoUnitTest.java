@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -95,14 +96,23 @@ public class PipelineEventDaoUnitTest {
     }
 
     @Test
+    public void getParameters(){
+        MapSqlParameterSource expectedMapSqlParameterSource = new MapSqlParameterSource();
+        when(pipelineEventDao.getParameters(expectedPipelineEvent)).thenReturn(expectedMapSqlParameterSource);
+        pipelineEventDao.getParameters(expectedPipelineEvent);
+        verify(pipelineEventDao, atLeastOnce())
+                .getParameters(expectedPipelineEvent);
+    }
+
+    @Test
     public void setCreateEventQuery() {
-        String expectedCreateEventQuery = "expectedCreateEventQuery";
+        String expectedCreateEventQuery = "createEventQuery";
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             assertEquals(expectedCreateEventQuery, arg0);
             return null;
         }).when(pipelineEventDao).setCreateEventQuery(any(String.class));
-        pipelineEventDao.setCreateEventQuery("expectedCreateEventQuery");
+        pipelineEventDao.setCreateEventQuery("createEventQuery");
         verify(pipelineEventDao, atLeastOnce()).setCreateEventQuery(expectedCreateEventQuery);
     }
 

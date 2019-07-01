@@ -6,13 +6,10 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,17 +30,16 @@ class ElasticIndexServiceTest {
     @Test
     void createIndexIfNotExist() {
         String expectedIndex = "newIndex";
-        String mappingsJson = "mappingsJson";
+        String expectedMappingsJson = "mappingsJson";
         try { doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
             assertEquals(expectedIndex, arg0);
-            assertEquals(mappingsJson, arg1);
+            assertEquals(expectedMappingsJson, arg1);
             return null;
-        }).when(elasticIndexService).createIndexIfNotExist(expectedIndex, mappingsJson);
-               // doThrow(new IOException()).when(elasticIndexService).createIndexIfNotExist("test", "test");
+        }).when(elasticIndexService).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
         elasticIndexService.createIndexIfNotExist("newIndex", "mappingsJson");
-            verify(elasticIndexService, atLeastOnce()).createIndexIfNotExist(expectedIndex, mappingsJson);
+            verify(elasticIndexService, atLeastOnce()).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
         } catch (ElasticClientException e) {
             e.printStackTrace();
         }
@@ -116,5 +112,13 @@ class ElasticIndexServiceTest {
         elasticIndexService.getWildcardId("id");
         assertEquals(expectedWildCardId, "id-*");
         verify(elasticIndexService).getWildcardId(expectedId);
+    }
+
+    @Test
+    void openJsonMapping() throws FileNotFoundException {
+        String expectedPath = "path";
+        when(elasticIndexService.openJsonMapping(expectedPath)).thenReturn(any(InputStream.class));
+        elasticIndexService.openJsonMapping("path");
+        verify(elasticIndexService).openJsonMapping(expectedPath);
     }
 }
