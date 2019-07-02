@@ -15,6 +15,7 @@
  */
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
+import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
 import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
@@ -64,7 +65,7 @@ class PipelineSynchronizerTest{
     private PipelineSynchronizer pipelineSynchronizer;
 
     @Test
-    void shouldStartSynchronizeTest() throws InterruptedException {
+    void synchronize() throws InterruptedException {
         MockitoAnnotations.initMocks(this);
         TimeUnit.SECONDS.sleep(2);
         LocalDateTime expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
@@ -142,7 +143,6 @@ class PipelineSynchronizerTest{
 
     @Test
     void buildDocRequests() {
-
         PipelineEvent actualPipelineEvent = new PipelineEvent();
         actualPipelineEvent.setEventType(EventType.INSERT);
         actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
@@ -177,5 +177,39 @@ class PipelineSynchronizerTest{
         assertEquals(expectedPipelineDocRequests, actualPipelineDocRequests);
         verify(pipelineSynchronizer, atLeastOnce())
                 .buildDocRequests(expectedPipelineEvent.getObjectId(), expectedList, expectedPipelineIndex, expectedCodeIndex);
+    }
+
+    @Test
+    void processPipelineEvent() throws EntityNotFoundException {
+        PipelineEvent actualPipelineEvent = new PipelineEvent();
+        actualPipelineEvent.setEventType(EventType.INSERT);
+        actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
+        actualPipelineEvent.setObjectId(1L);
+        actualPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        actualPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
+        String expectedPipelineIndex = "expectedPipelineIndex";
+        String expectedCodeIndex = "expectedCodeIndex";
+        String actualPipelineIndex = "expectedPipelineIndex";
+        String actualCodeIndex = "expectedCodeIndex";
+        DocWriteRequest docWriteRequest = new UpdateRequest();
+        List<DocWriteRequest> pipelineRequests = new ArrayList<>();
+        pipelineRequests.add(docWriteRequest);
+        List<DocWriteRequest> codeRequests = new ArrayList<>();
+        codeRequests.add(docWriteRequest);
+        PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests = new PipelineSynchronizer
+                .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
+        PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = new PipelineSynchronizer
+                .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
+        when(pipelineSynchronizer.processPipelineEvent(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex))
+                .thenReturn(expectedPipelineDocRequests);
+        pipelineSynchronizer.processPipelineEvent(actualPipelineEvent, actualPipelineIndex, actualCodeIndex);
+        assertEquals(expectedPipelineDocRequests, actualPipelineDocRequests);
+        verify(pipelineSynchronizer, atLeastOnce())
+                .processPipelineEvent(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex);
+    }
+
+    @Test
+    void cleanCodeIndexAndCreateDeleteRequest(){
+        
     }
 }

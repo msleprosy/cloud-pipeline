@@ -188,7 +188,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         }
     }
 
-    private PipelineDocRequests processPipelineEvent(final PipelineEvent event,
+    /*private*/ PipelineDocRequests processPipelineEvent(final PipelineEvent event,
                                                      final String pipelineIndex,
                                                      final String codeIndex) throws EntityNotFoundException {
         PipelineDocRequests.PipelineDocRequestsBuilder requestsBuilder =
@@ -229,7 +229,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         log.debug("Created index and documents for {} pipeline.", pipeline.getName());
     }
 
-    private PipelineDocRequests cleanCodeIndexAndCreateDeleteRequest(
+    /*private*/ PipelineDocRequests cleanCodeIndexAndCreateDeleteRequest(
             final Long pipelineId,
             final String pipelineIndex,
             final String codeIndex,
