@@ -18,7 +18,11 @@ package com.epam.pipeline.elasticsearchagent.service.impl;
 import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
 import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
+import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
+import com.epam.pipeline.entity.pipeline.Pipeline;
+import com.epam.pipeline.entity.pipeline.Revision;
+import com.epam.pipeline.entity.utils.DateUtils;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.junit.Before;
@@ -32,9 +36,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.epam.pipeline.elasticsearchagent.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -47,6 +53,12 @@ class PipelineSynchronizerTest{
 
     private PipelineEvent expectedPipelineEvent;
     private List<PipelineEvent> expectedList;
+    private LocalDateTime expectedSyncStart;
+    private String expectedPipelineIndex;
+    private String expectedCodeIndex;
+    private PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests;
+    private DocWriteRequest docWriteRequest;
+    List<DocWriteRequest> expectedListOfRequests;
 
     @BeforeEach
     public void setup() {
@@ -56,9 +68,19 @@ class PipelineSynchronizerTest{
         expectedPipelineEvent.setObjectId(1L);
         expectedPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
         expectedPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
-
         expectedList = new ArrayList<>();
         expectedList.add(expectedPipelineEvent);
+        expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
+        expectedPipelineIndex = "pipelineIndex";
+        expectedCodeIndex = "codeIndex";
+        docWriteRequest = new UpdateRequest();
+        expectedListOfRequests = new ArrayList<>();
+        expectedListOfRequests.add(docWriteRequest);
+        expectedPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
+                .pipelineId(1L)
+                .pipelineRequests(expectedListOfRequests)
+                .codeRequests(expectedListOfRequests)
+                .build();
     }
 
     @Mock
@@ -67,7 +89,6 @@ class PipelineSynchronizerTest{
     @Test
     void synchronize() throws InterruptedException {
         TimeUnit.SECONDS.sleep(2);
-        LocalDateTime expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
         LocalDateTime expectedLastSyncTime = LocalDateTime.of(2019, Month.JUNE, 25, 11, 11, 0);
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
@@ -85,7 +106,6 @@ class PipelineSynchronizerTest{
 
     @Test
     void synchronizePipelineEvents(){
-        LocalDateTime expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
         PipelineEvent actualPipelineEvent = new PipelineEvent();
         actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
         actualPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
@@ -94,6 +114,7 @@ class PipelineSynchronizerTest{
         actualPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
         List<PipelineEvent> actualList = new ArrayList<>();
         actualList.add(actualPipelineEvent);
+        LocalDateTime actualSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
@@ -103,15 +124,12 @@ class PipelineSynchronizerTest{
             assertEquals(expectedSyncStart, arg2);
             return null;
         }).when(pipelineSynchronizer).synchronizePipelineEvents(any(Long.class), anyList(), any(LocalDateTime.class));
-        pipelineSynchronizer.synchronizePipelineEvents(1L, actualList, LocalDateTime
-                        .of(2019, Month.JUNE, 26, 11, 11, 0));
+        pipelineSynchronizer.synchronizePipelineEvents(1L, actualList, actualSyncStart);
         verify(pipelineSynchronizer, atLeast(1)).synchronizePipelineEvents(1L, expectedList, expectedSyncStart);
     }
 
     @Test
     void createIndexDocuments(){
-        String expectedPipelineIndex = "pipelineIndex";
-        String expectedCodeIndex = "codeIndex";
         String actualPipelineIndex = "pipelineIndex";
         String actualCodeIndex = "codeIndex";
         PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
@@ -122,8 +140,35 @@ class PipelineSynchronizerTest{
         actualPipelineEvent.setEventType(EventType.INSERT);
         actualPipelineEvent.setObjectId(1L);
         actualPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
-        EntityContainer expectedEntityContainer = new EntityContainer();
-        EntityContainer actualEntityContainer = new EntityContainer();
+
+        Pipeline pipeline = new Pipeline();
+        pipeline.setId(1L);
+        pipeline.setName(TEST_NAME);
+        pipeline.setCreatedDate(DateUtils.now());
+        pipeline.setParentFolderId(2L);
+        pipeline.setDescription(TEST_DESCRIPTION);
+        pipeline.setRepository(TEST_REPO);
+        pipeline.setTemplateId(TEST_TEMPLATE);
+
+        Revision revision = new Revision();
+        revision.setName(TEST_VERSION);
+
+        PipelineDoc pipelineDoc = PipelineDoc.builder()
+                .pipeline(pipeline)
+                .revisions(Collections.singletonList(revision)).build();
+        EntityContainer expectedEntityContainer = EntityContainer.<PipelineDoc>builder()
+                .entity(pipelineDoc)
+                .owner(USER)
+                .metadata(METADATA)
+                .permissions(PERMISSIONS_CONTAINER)
+                .build();
+        EntityContainer actualEntityContainer = EntityContainer.<PipelineDoc>builder()
+                .entity(pipelineDoc)
+                .owner(USER)
+                .metadata(METADATA)
+                .permissions(PERMISSIONS_CONTAINER)
+                .build();
+
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
@@ -155,19 +200,8 @@ class PipelineSynchronizerTest{
         List<PipelineEvent> actualList;
         actualList = new ArrayList<>();
         actualList.add(expectedPipelineEvent);
-        String expectedPipelineIndex = "expectedPipelineIndex";
-        String expectedCodeIndex = "expectedCodeIndex";
-        String actualPipelineIndex = "expectedPipelineIndex";
-        String actualCodeIndex = "expectedCodeIndex";
-        DocWriteRequest docWriteRequest = new UpdateRequest();
-        List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
-        PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
-                .pipelineId(1L)
-                .pipelineRequests(expectedListOfRequests)
-                .codeRequests(expectedListOfRequests)
-                .build();
-
+        String actualPipelineIndex = "pipelineIndex";
+        String actualCodeIndex = "codeIndex";
         PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
                 .pipelineId(1L)
                 .pipelineRequests(expectedListOfRequests)
@@ -194,13 +228,10 @@ class PipelineSynchronizerTest{
         String expectedCodeIndex = "expectedCodeIndex";
         String actualPipelineIndex = "expectedPipelineIndex";
         String actualCodeIndex = "expectedCodeIndex";
-        DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> pipelineRequests = new ArrayList<>();
         pipelineRequests.add(docWriteRequest);
         List<DocWriteRequest> codeRequests = new ArrayList<>();
         codeRequests.add(docWriteRequest);
-        PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests = new PipelineSynchronizer
-                .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
         PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = new PipelineSynchronizer
                 .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
         when(pipelineSynchronizer.processPipelineEvent(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex))
@@ -213,19 +244,14 @@ class PipelineSynchronizerTest{
 
     @Test
     void cleanCodeIndexAndCreateDeleteRequest(){
-        DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> pipelineRequests = new ArrayList<>();
         pipelineRequests.add(docWriteRequest);
         List<DocWriteRequest> codeRequests = new ArrayList<>();
         codeRequests.add(docWriteRequest);
         PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
         PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = null;
-        PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests = new PipelineSynchronizer
-                .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
         PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = new PipelineSynchronizer
                 .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
-        String expectedPipelineIndex = "pipelineIndex";
-        String expectedCodeIndex = "codeIndex";
         String actualPipelineIndex = "pipelineIndex";
         String actualCodeIndex = "codeIndex";
         when(pipelineSynchronizer.cleanCodeIndexAndCreateDeleteRequest(1L, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder))
