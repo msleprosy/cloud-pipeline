@@ -108,10 +108,10 @@ class PipelineSynchronizerTest{
 
     @Test
     void createIndexDocuments(){
-        MockitoAnnotations.initMocks(this);
         String expectedPipelineIndex = "expectedPipelineIndex";
         String expectedCodeIndex = "expectedCodeIndex";
-        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder pipelineDocRequestsBuilder = null;
+        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder pipelineDocRequestsBuilder = new PipelineSynchronizer
+                .PipelineDocRequests.PipelineDocRequestsBuilder();
         EntityContainer entityContainer = new EntityContainer();
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
@@ -119,15 +119,14 @@ class PipelineSynchronizerTest{
             Object arg2 = invocation.getArgument(2);
             Object arg3 = invocation.getArgument(3);
             Object arg4 = invocation.getArgument(4);
-            assertEquals(any(PipelineEvent.class), arg0);
-            assertEquals(anyString(), arg1);
-            assertEquals(anyString(), arg2);
-            assertEquals(any(PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder.class), arg3);
-            assertEquals(any(EntityContainer.class), arg4);
+            assertEquals(expectedPipelineEvent, arg0);
+            assertEquals(expectedPipelineIndex, arg1);
+            assertEquals(expectedCodeIndex, arg2);
+            assertEquals(pipelineDocRequestsBuilder, arg3);
+            assertEquals(entityContainer, arg4);
             return null;
         }).when(pipelineSynchronizer)
-                .createIndexDocuments(any(PipelineEvent.class), anyString(), anyString(), any(PipelineSynchronizer
-                        .PipelineDocRequests.PipelineDocRequestsBuilder.class), any(EntityContainer.class));
+                .createIndexDocuments(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex, pipelineDocRequestsBuilder, entityContainer);
         pipelineSynchronizer
                 .createIndexDocuments(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex, pipelineDocRequestsBuilder, entityContainer);
         verify(pipelineSynchronizer, atLeast(1))
