@@ -29,6 +29,7 @@ class ElasticIndexServiceTest {
     private List<DocWriteRequest> expectedListOfRequests;
     private String expectedIndexName;
     private SearchRequest expectedSearchRequest;
+    private String expectedId;
 
     @BeforeEach
     public void setup() {
@@ -37,6 +38,7 @@ class ElasticIndexServiceTest {
         expectedListOfRequests.add(docWriteRequest);
         expectedIndexName = "indexName";
         expectedSearchRequest = new SearchRequest();
+        expectedId = "id";
     }
 
     @Mock
@@ -76,7 +78,7 @@ class ElasticIndexServiceTest {
 
     @Test
     void getDeleteRequests() {
-        String expectedId = "id";
+        String actualId = "id";
         String actualIndexName = "indexName";
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
@@ -84,7 +86,7 @@ class ElasticIndexServiceTest {
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
         when(elasticIndexService.getDeleteRequests(expectedId, expectedIndexName)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequests("id", actualIndexName);
+        elasticIndexService.getDeleteRequests(actualId, actualIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
         verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);
     }
@@ -106,22 +108,23 @@ class ElasticIndexServiceTest {
 
     @Test
     void buildSearchRequestForConfigEntries(){
-        String expectedId = "id";
-        String expectedIndexName = "indexName";
+        String actualId = "id";
+        String actualIndexName = "indexName";
         SearchRequest actualSearchRequest = new SearchRequest();
         when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName)).thenReturn(expectedSearchRequest);
-        elasticIndexService.buildSearchRequestForConfigEntries("id", "indexName");
+        elasticIndexService.buildSearchRequestForConfigEntries(actualId, actualIndexName);
         assertEquals(expectedSearchRequest, actualSearchRequest);
         verify(elasticIndexService).buildSearchRequestForConfigEntries(expectedId, expectedIndexName);
     }
 
     @Test
     void getWildcardId(){
-        String expectedId = "id";
         String expectedWildCardId = expectedId + ID_DELIMITER + WILDCARD;
+        String actualId = "id";
+        String actualWildCardId = actualId + ID_DELIMITER + WILDCARD;
         when(elasticIndexService.getWildcardId(expectedId)).thenReturn(expectedWildCardId);
-        elasticIndexService.getWildcardId("id");
-        assertEquals(expectedWildCardId, "id-*");
+        elasticIndexService.getWildcardId(actualId);
+        assertEquals(expectedWildCardId, actualWildCardId);
         verify(elasticIndexService).getWildcardId(expectedId);
     }
 
