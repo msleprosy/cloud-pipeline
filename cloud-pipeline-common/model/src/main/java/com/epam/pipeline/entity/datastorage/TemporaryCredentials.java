@@ -23,6 +23,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -43,4 +45,16 @@ public class TemporaryCredentials {
     private String expirationTime;
 
     private String region;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TemporaryCredentials)) return false;
+        TemporaryCredentials that = (TemporaryCredentials) o;
+        return Objects.equals(getAccessKey(), that.getAccessKey()) &&
+                Objects.equals(getKeyId(), that.getKeyId()) &&
+                Objects.equals(getToken(), that.getToken()) &&
+                Objects.equals(getExpirationTime(), that.getExpirationTime()) &&
+                Objects.equals(getRegion(), that.getRegion());
+    }
 }

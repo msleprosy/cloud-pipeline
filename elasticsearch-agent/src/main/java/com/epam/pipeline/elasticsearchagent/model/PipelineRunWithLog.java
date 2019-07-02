@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -30,4 +31,14 @@ public class PipelineRunWithLog {
     private PipelineRun pipelineRun;
     private PipelineUser runOwner;
     private List<RunLog> runLogs;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PipelineRunWithLog)) return false;
+        PipelineRunWithLog that = (PipelineRunWithLog) o;
+        return Objects.equals(getPipelineRun(), that.getPipelineRun()) &&
+                Objects.equals(getRunOwner(), that.getRunOwner()) &&
+                Objects.equals(getRunLogs(), that.getRunLogs());
+    }
 }
