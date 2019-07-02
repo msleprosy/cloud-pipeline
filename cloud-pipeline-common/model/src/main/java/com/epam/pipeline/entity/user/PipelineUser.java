@@ -21,13 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
@@ -135,5 +129,19 @@ public class PipelineUser implements StorageContainer {
             }
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PipelineUser)) return false;
+        PipelineUser that = (PipelineUser) o;
+        return isAdmin() == that.isAdmin() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getUserName(), that.getUserName()) &&
+                Objects.equals(getRoles(), that.getRoles()) &&
+                Objects.equals(getGroups(), that.getGroups()) &&
+                Objects.equals(getDefaultStorageId(), that.getDefaultStorageId()) &&
+                Objects.equals(getAttributes(), that.getAttributes());
     }
 }
