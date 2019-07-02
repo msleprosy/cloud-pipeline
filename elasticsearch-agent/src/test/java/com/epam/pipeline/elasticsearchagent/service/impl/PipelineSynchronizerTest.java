@@ -114,10 +114,8 @@ class PipelineSynchronizerTest{
         String expectedCodeIndex = "codeIndex";
         String actualPipelineIndex = "pipelineIndex";
         String actualCodeIndex = "codeIndex";
-        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder = new PipelineSynchronizer
-                .PipelineDocRequests.PipelineDocRequestsBuilder();
-        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = new PipelineSynchronizer
-                .PipelineDocRequests.PipelineDocRequestsBuilder();
+        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
+        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = null;
         PipelineEvent actualPipelineEvent = new PipelineEvent();
         actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
         actualPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
@@ -213,22 +211,28 @@ class PipelineSynchronizerTest{
                 .processPipelineEvent(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex);
     }
 
-/*    @Test
+    @Test
     void cleanCodeIndexAndCreateDeleteRequest(){
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> pipelineRequests = new ArrayList<>();
         pipelineRequests.add(docWriteRequest);
         List<DocWriteRequest> codeRequests = new ArrayList<>();
         codeRequests.add(docWriteRequest);
+        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
+        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = null;
         PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests = new PipelineSynchronizer
                 .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
         PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = new PipelineSynchronizer
                 .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
-        when(pipelineSynchronizer.cleanCodeIndexAndCreateDeleteRequest())
+        String expectedPipelineIndex = "pipelineIndex";
+        String expectedCodeIndex = "codeIndex";
+        String actualPipelineIndex = "pipelineIndex";
+        String actualCodeIndex = "codeIndex";
+        when(pipelineSynchronizer.cleanCodeIndexAndCreateDeleteRequest(1L, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder))
                 .thenReturn(expectedPipelineDocRequests);
-        pipelineSynchronizer.cleanCodeIndexAndCreateDeleteRequest();
+        pipelineSynchronizer.cleanCodeIndexAndCreateDeleteRequest(1L, actualPipelineIndex, actualCodeIndex, actualPipelineDocRequestsBuilder);
         assertEquals(expectedPipelineDocRequests, actualPipelineDocRequests);
         verify(pipelineSynchronizer, atLeastOnce())
-                .cleanCodeIndexAndCreateDeleteRequest();
-    }*/
+                .cleanCodeIndexAndCreateDeleteRequest(1L, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder);
+    }
 }
