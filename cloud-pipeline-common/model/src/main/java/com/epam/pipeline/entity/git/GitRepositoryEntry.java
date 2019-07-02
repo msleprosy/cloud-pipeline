@@ -19,6 +19,8 @@ package com.epam.pipeline.entity.git;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 /**
  * Represents Gitlab repository browsing request result
  */
@@ -30,4 +32,16 @@ public class GitRepositoryEntry {
     private String type;
     private String path;
     private String mode;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GitRepositoryEntry)) return false;
+        GitRepositoryEntry that = (GitRepositoryEntry) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getType(), that.getType()) &&
+                Objects.equals(getPath(), that.getPath()) &&
+                Objects.equals(getMode(), that.getMode());
+    }
 }

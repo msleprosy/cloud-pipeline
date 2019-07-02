@@ -17,6 +17,8 @@
 package com.epam.pipeline.entity.pipeline;
 
 import java.util.Date;
+import java.util.Objects;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,5 +49,18 @@ public class Revision {
     public Revision(String name, String message, Date createdDate, String commitId, Boolean draft) {
         this(name, message, createdDate, commitId);
         this.draft = draft;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Revision)) return false;
+        Revision revision = (Revision) o;
+        return Objects.equals(getId(), revision.getId()) &&
+                Objects.equals(getName(), revision.getName()) &&
+                Objects.equals(getMessage(), revision.getMessage()) &&
+                Objects.equals(getCreatedDate(), revision.getCreatedDate()) &&
+                Objects.equals(getDraft(), revision.getDraft()) &&
+                Objects.equals(getCommitId(), revision.getCommitId());
     }
 }

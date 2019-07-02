@@ -4,6 +4,7 @@ import com.epam.pipeline.elasticsearchagent.model.PipelineRunWithLog;
 import com.epam.pipeline.elasticsearchagent.service.impl.converter.storage.DataStorageLoader;
 import com.epam.pipeline.entity.configuration.RunConfiguration;
 import com.epam.pipeline.entity.datastorage.*;
+import com.epam.pipeline.entity.git.GitRepositoryEntry;
 import com.epam.pipeline.entity.issue.Issue;
 import com.epam.pipeline.entity.metadata.MetadataEntity;
 import com.epam.pipeline.entity.metadata.MetadataEntry;
@@ -12,6 +13,7 @@ import com.epam.pipeline.entity.region.AbstractCloudRegion;
 import com.epam.pipeline.entity.region.AwsRegion;
 import com.epam.pipeline.entity.security.acl.AclClass;
 import com.epam.pipeline.entity.user.PipelineUser;
+import com.epam.pipeline.vo.EntityPermissionVO;
 import com.epam.pipeline.vo.EntityVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -118,6 +120,16 @@ class CloudPipelineAPIClientTest {
 
     @Test
     void loadAllRegions() {
+        AbstractCloudRegion expectedCloudRegion = new AwsRegion();
+        List<AbstractCloudRegion> expectedAbstractCloudRegionsList = new ArrayList<>();
+        expectedAbstractCloudRegionsList.add(expectedCloudRegion);
+        AbstractCloudRegion actualCloudRegion = new AwsRegion();
+        List<AbstractCloudRegion> actualAbstractCloudRegionsList = new ArrayList<>();
+        actualAbstractCloudRegionsList.add(actualCloudRegion);
+        doReturn(expectedAbstractCloudRegionsList).when(cloudPipelineAPIClient).loadAllRegions();
+        cloudPipelineAPIClient.loadAllRegions();
+        assertEquals(expectedAbstractCloudRegionsList, actualAbstractCloudRegionsList);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadAllRegions();
     }
 
     @Test
@@ -226,26 +238,81 @@ class CloudPipelineAPIClientTest {
 
     @Test
     void loadPipeline() {
-        
+        String expectedIdentifier = "identifier";
+        Pipeline expectedPipeline = new Pipeline();
+        Pipeline actualPipeline = new Pipeline();
+        when(cloudPipelineAPIClient.loadPipeline(expectedIdentifier)).thenReturn(expectedPipeline);
+        cloudPipelineAPIClient.loadPipeline("identifier");
+        assertEquals(expectedPipeline, actualPipeline);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadPipeline(expectedIdentifier);
     }
 
     @Test
     void loadPermissionsForEntity() {
+        AclClass expectedAclClass = AclClass.FOLDER;
+        AclClass actualAclClass = AclClass.FOLDER;
+        EntityPermissionVO expectedEntityPermissionVO = new EntityPermissionVO();
+        EntityPermissionVO actualEntityPermissionVO = new EntityPermissionVO();
+        when(cloudPipelineAPIClient.loadPermissionsForEntity(1L, expectedAclClass)).thenReturn(expectedEntityPermissionVO);
+        cloudPipelineAPIClient.loadPermissionsForEntity(1L, actualAclClass);
+        assertEquals(expectedEntityPermissionVO, actualEntityPermissionVO);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadPermissionsForEntity(1L, expectedAclClass);
     }
 
     @Test
     void loadPipelineVersions() {
+        Revision expectedRevision = new Revision();
+        List<Revision> expectedRevisionList = new ArrayList<>();
+        expectedRevisionList.add(expectedRevision);
+        Revision actualRevision = new Revision();
+        List<Revision> actualRevisionList = new ArrayList<>();
+        actualRevisionList.add(actualRevision);
+        when(cloudPipelineAPIClient.loadPipelineVersions(1L)).thenReturn(expectedRevisionList);
+        cloudPipelineAPIClient.loadPipelineVersions(1L);
+        assertEquals(expectedRevisionList, actualRevisionList);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadPipelineVersions(1L);
     }
 
     @Test
     void getPipelineFile() {
+        String actualTestVersion = "version";
+        String actualTestPath = "test/path";
+        String expectedFileContent = "fileContent";
+        String actualFileContent = "fileContent";
+        when(cloudPipelineAPIClient.getPipelineFile(1L, TEST_VERSION, TEST_PATH)).thenReturn(expectedFileContent);
+        cloudPipelineAPIClient.getPipelineFile(1L, actualTestVersion, actualTestPath);
+        assertEquals(expectedFileContent, actualFileContent);
+        verify(cloudPipelineAPIClient, atLeastOnce()).getPipelineFile(1L, TEST_VERSION, TEST_PATH);
     }
 
     @Test
     void loadRepositoryContents() {
+        String actualTestVersion = "version";
+        String actualTestPath = "test/path";
+
+        GitRepositoryEntry expectedGitRepositoryEntry = new GitRepositoryEntry();
+        List<GitRepositoryEntry> expectedGitRepositoryEntryList = new ArrayList<>();
+        expectedGitRepositoryEntryList.add(expectedGitRepositoryEntry);
+
+        GitRepositoryEntry actualGitRepositoryEntry = new GitRepositoryEntry();
+        List<GitRepositoryEntry> actualGitRepositoryEntryList = new ArrayList<>();
+        actualGitRepositoryEntryList.add(actualGitRepositoryEntry);
+
+        when(cloudPipelineAPIClient.loadRepositoryContents(1L, TEST_VERSION, TEST_PATH)).thenReturn(expectedGitRepositoryEntryList);
+        cloudPipelineAPIClient.loadRepositoryContents(1L, actualTestVersion, actualTestPath);
+        assertEquals(expectedGitRepositoryEntryList, actualGitRepositoryEntryList);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadRepositoryContents(1L, TEST_VERSION, TEST_PATH);
     }
 
     @Test
     void loadPipelineByRepositoryUrl() {
+        String expectedRepositoryUrl = "String repositoryUrl";
+        String actualRepositoryUrl = "String repositoryUrl";
+        Pipeline expectedPipeline = new Pipeline();
+        Pipeline actualPipeline = new Pipeline();
+        when(cloudPipelineAPIClient.loadPipelineByRepositoryUrl(expectedRepositoryUrl)).thenReturn(expectedPipeline);
+        cloudPipelineAPIClient.loadPipelineByRepositoryUrl(actualRepositoryUrl);
+        assertEquals(expectedPipeline, actualPipeline);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadPipelineByRepositoryUrl(expectedRepositoryUrl);
     }
 }
