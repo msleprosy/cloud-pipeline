@@ -4,6 +4,7 @@ import com.epam.pipeline.elasticsearchagent.exception.ElasticClientException;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_PATH;
 import static com.epam.pipeline.elasticsearchagent.service.impl.converter.configuration.RunConfigurationDocumentBuilder.ID_DELIMITER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,6 +25,19 @@ import static org.mockito.Mockito.*;
 class ElasticIndexServiceTest {
 
     private static final String WILDCARD = "*";
+    private DocWriteRequest docWriteRequest;
+    private List<DocWriteRequest> expectedListOfRequests;
+    private String expectedIndexName;
+    private SearchRequest expectedSearchRequest;
+
+    @BeforeEach
+    public void setup() {
+        docWriteRequest = new UpdateRequest();
+        expectedListOfRequests = new ArrayList<>();
+        expectedListOfRequests.add(docWriteRequest);
+        expectedIndexName = "indexName";
+        expectedSearchRequest = new SearchRequest();
+    }
 
     @Mock
     private ElasticIndexService elasticIndexService;
@@ -31,6 +46,8 @@ class ElasticIndexServiceTest {
     void createIndexIfNotExist() {
         String expectedIndex = "newIndex";
         String expectedMappingsJson = "mappingsJson";
+        String actualIndex = "newIndex";
+        String actualMappingsJson = "mappingsJson";
         try { doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
@@ -38,7 +55,7 @@ class ElasticIndexServiceTest {
             assertEquals(expectedMappingsJson, arg1);
             return null;
         }).when(elasticIndexService).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
-        elasticIndexService.createIndexIfNotExist("newIndex", "mappingsJson");
+        elasticIndexService.createIndexIfNotExist(actualIndex, actualMappingsJson);
             verify(elasticIndexService, atLeastOnce()).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
         } catch (ElasticClientException e) {
             e.printStackTrace();
@@ -49,54 +66,51 @@ class ElasticIndexServiceTest {
     void getDeleteRequestsByTerm() {
         String expectedField = "field";
         String expectedValue = "value";
-        String expectedIndexName = "indexName";
-        DocWriteRequest docWriteRequest = new UpdateRequest();
-        List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
+        String actualField = "field";
+        String actualValue = "value";
+        String actualIndexName = "indexName";
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
         when(elasticIndexService.getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequestsByTerm("field", "value", "indexName");
+        elasticIndexService.getDeleteRequestsByTerm(actualField, actualValue, actualIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
         verify(elasticIndexService).getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);
     }
 
     @Test
     void getDeleteRequests() {
-        String expectedId = "expectedId";
-        String expectedIndexName = "expectedIndexName";
+        String expectedId = "id";
+        String actualIndexName = "indexName";
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
         when(elasticIndexService.getDeleteRequests(expectedId, expectedIndexName)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequests("expectedId", "expectedIndexName");
+        elasticIndexService.getDeleteRequests("id", actualIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
         verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);
     }
 
     @Test
     void buildDeleteRequests(){
-        String expectedIndexName = "indexName";
-        SearchRequest expectedRequest = new SearchRequest();
-        SearchRequest actualRequest = new SearchRequest();
+        String actualIndexName = "indexName";
+        SearchRequest actualSearchRequest = new SearchRequest();
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.buildDeleteRequests(expectedIndexName, expectedRequest)).thenReturn(expectedListOfRequests);
-        elasticIndexService.buildDeleteRequests("indexName", actualRequest);
+        when(elasticIndexService.buildDeleteRequests(expectedIndexName, expectedSearchRequest)).thenReturn(expectedListOfRequests);
+        elasticIndexService.buildDeleteRequests(actualIndexName, actualSearchRequest);
         assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).buildDeleteRequests(expectedIndexName, expectedRequest);
+        verify(elasticIndexService).buildDeleteRequests(expectedIndexName, expectedSearchRequest);
     }
 
     @Test
     void buildSearchRequestForConfigEntries(){
         String expectedId = "id";
         String expectedIndexName = "indexName";
-        SearchRequest expectedSearchRequest = new SearchRequest();
         SearchRequest actualSearchRequest = new SearchRequest();
         when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName)).thenReturn(expectedSearchRequest);
         elasticIndexService.buildSearchRequestForConfigEntries("id", "indexName");
@@ -116,9 +130,10 @@ class ElasticIndexServiceTest {
 
     @Test
     void openJsonMapping() throws FileNotFoundException {
-        String expectedPath = "path";
+        String expectedPath = TEST_PATH;
+        String actualPath = TEST_PATH;
         when(elasticIndexService.openJsonMapping(expectedPath)).thenReturn(any(InputStream.class));
-        elasticIndexService.openJsonMapping("path");
+        elasticIndexService.openJsonMapping(actualPath);
         verify(elasticIndexService).openJsonMapping(expectedPath);
     }
 }
