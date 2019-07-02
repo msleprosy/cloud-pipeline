@@ -19,9 +19,12 @@ import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -35,12 +38,14 @@ import static org.mockito.Mockito.*;
 
 @SuppressWarnings("unused")
 
+@ExtendWith(MockitoExtension.class)
+
 class PipelineSynchronizerTest{
 
     private PipelineEvent expectedPipelineEvent;
     private List<PipelineEvent> expectedList;
 
-    @Before
+    @BeforeEach
     public void setup() {
         expectedPipelineEvent = new PipelineEvent();
         expectedPipelineEvent.setEventType(EventType.INSERT);
@@ -78,7 +83,6 @@ class PipelineSynchronizerTest{
 
     @Test
     void synchronizePipelineEvents(){
-        MockitoAnnotations.initMocks(this);
         LocalDateTime expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
         PipelineEvent actualPipelineEvent = new PipelineEvent();
         actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
