@@ -83,6 +83,7 @@ class PipelineCodeHandlerTest {
 
     @Mock
     private PipelineCodeHandler pipelineCodeHandler;
+
     private PipelineEvent expectedPipelineEvent;
     private EntityContainer<PipelineDoc> container;
     private GitEventData gitPushEventData;
@@ -143,7 +144,7 @@ class PipelineCodeHandlerTest {
                 .build();
     }
 
-    @Test
+   /* @Test
     void createRequestsForVersionEvents(){
         String expectedPath = "expectedPath";
         List<String> expectedPathList = new ArrayList<>();
@@ -166,7 +167,7 @@ class PipelineCodeHandlerTest {
         assertEquals(expectedListOfRequests, expectedListOfRequests);
         verify(pipelineCodeHandler, atLeastOnce())
                 .createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
-    }
+    }*/
 
     @Test
     void shouldProcessGitPushEventTest() throws EntityNotFoundException, IOException {

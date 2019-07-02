@@ -15,6 +15,7 @@ import com.epam.pipeline.entity.security.acl.AclClass;
 import com.epam.pipeline.entity.user.PipelineUser;
 import com.epam.pipeline.vo.EntityPermissionVO;
 import com.epam.pipeline.vo.EntityVO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -37,12 +38,22 @@ import static org.mockito.Mockito.*;
 
 class CloudPipelineAPIClientTest {
 
-    @Mock
+    private AbstractDataStorage expectedDataStorage;
+    private AbstractCloudRegion expectedCloudRegion;
+    private Pipeline expectedPipeline;
+
+    @BeforeEach
+    public void setup() {
+        expectedDataStorage = new S3bucketDataStorage();
+        expectedCloudRegion = new AwsRegion();
+        expectedPipeline = new Pipeline();
+    }
+
+        @Mock
     private CloudPipelineAPIClient cloudPipelineAPIClient;
 
     @Test
     void loadAllDataStorages() {
-        AbstractDataStorage expectedDataStorage = new S3bucketDataStorage();
         List<AbstractDataStorage> expectedListOfDataStorages = new ArrayList<>();
         expectedListOfDataStorages.add(expectedDataStorage);
         AbstractDataStorage actualDataStorage = new S3bucketDataStorage();
@@ -56,7 +67,6 @@ class CloudPipelineAPIClientTest {
 
     @Test
     void loadDataStorage() {
-        AbstractDataStorage expectedDataStorage = new S3bucketDataStorage();
         AbstractDataStorage actualDataStorage = new S3bucketDataStorage();
         when(cloudPipelineAPIClient.loadDataStorage(1L)).thenReturn(expectedDataStorage);
         cloudPipelineAPIClient.loadDataStorage(1L);
@@ -111,16 +121,15 @@ class CloudPipelineAPIClientTest {
 
     @Test
     void loadUserByName() {
-        PipelineUser ACTUAL_USER = buildPipelineUser(TEST_NAME, USER_NAME, USER_GROUPS);
+        PipelineUser actualUser = buildPipelineUser(TEST_NAME, USER_NAME, USER_GROUPS);
         when(cloudPipelineAPIClient.loadUserByName(USER_NAME)).thenReturn(USER);
         cloudPipelineAPIClient.loadUserByName(USER_NAME);
-        assertEquals(USER, ACTUAL_USER);
+        assertEquals(USER, actualUser);
         verify(cloudPipelineAPIClient, atLeastOnce()).loadUserByName(USER_NAME);
     }
 
     @Test
     void loadAllRegions() {
-        AbstractCloudRegion expectedCloudRegion = new AwsRegion();
         List<AbstractCloudRegion> expectedAbstractCloudRegionsList = new ArrayList<>();
         expectedAbstractCloudRegionsList.add(expectedCloudRegion);
         AbstractCloudRegion actualCloudRegion = new AwsRegion();
@@ -239,7 +248,6 @@ class CloudPipelineAPIClientTest {
     @Test
     void loadPipeline() {
         String expectedIdentifier = "identifier";
-        Pipeline expectedPipeline = new Pipeline();
         Pipeline actualPipeline = new Pipeline();
         when(cloudPipelineAPIClient.loadPipeline(expectedIdentifier)).thenReturn(expectedPipeline);
         cloudPipelineAPIClient.loadPipeline("identifier");
@@ -308,7 +316,6 @@ class CloudPipelineAPIClientTest {
     void loadPipelineByRepositoryUrl() {
         String expectedRepositoryUrl = "String repositoryUrl";
         String actualRepositoryUrl = "String repositoryUrl";
-        Pipeline expectedPipeline = new Pipeline();
         Pipeline actualPipeline = new Pipeline();
         when(cloudPipelineAPIClient.loadPipelineByRepositoryUrl(expectedRepositoryUrl)).thenReturn(expectedPipeline);
         cloudPipelineAPIClient.loadPipelineByRepositoryUrl(actualRepositoryUrl);

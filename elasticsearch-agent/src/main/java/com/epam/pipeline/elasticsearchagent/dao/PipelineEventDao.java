@@ -70,7 +70,7 @@ public class PipelineEventDao extends NamedParameterJdbcDaoSupport {
         getNamedParameterJdbcTemplate().update(deleteEventQuery, parameterSource);
     }
 
-    /*private*/ MapSqlParameterSource getParameters(final PipelineEvent pipelineEvent) {
+     MapSqlParameterSource getParameters(final PipelineEvent pipelineEvent) {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue(PipelineEventsParameters.OPERATION.name(), pipelineEvent.getEventType().getCode());

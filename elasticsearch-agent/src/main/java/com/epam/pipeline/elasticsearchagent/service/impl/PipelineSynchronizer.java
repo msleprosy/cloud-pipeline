@@ -132,7 +132,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
     }
 
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    /*private*/ void synchronizePipelineEvents(final Long pipelineId,
+    void synchronizePipelineEvents(final Long pipelineId,
                                            final List<PipelineEvent> events,
                                            final LocalDateTime syncStart) {
         try {
@@ -159,7 +159,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         }
     }
 
-    /*private */PipelineDocRequests buildDocRequests(final Long pipelineId,
+    PipelineDocRequests buildDocRequests(final Long pipelineId,
                                                  final List<PipelineEvent> events,
                                                  final String pipelineIndex,
                                                  final String codeIndex) {
@@ -188,7 +188,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         }
     }
 
-    /*private*/ PipelineDocRequests processPipelineEvent(final PipelineEvent event,
+    PipelineDocRequests processPipelineEvent(final PipelineEvent event,
                                                      final String pipelineIndex,
                                                      final String codeIndex) throws EntityNotFoundException {
         PipelineDocRequests.PipelineDocRequestsBuilder requestsBuilder =
@@ -204,7 +204,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         return requestsBuilder.build();
     }
 
-    /*private*/ void createIndexDocuments(final PipelineEvent event,
+    void createIndexDocuments(final PipelineEvent event,
                                       final String pipelineIndex,
                                       final String codeIndex,
                                       final PipelineDocRequests.PipelineDocRequestsBuilder requestsBuilder,
@@ -229,7 +229,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         log.debug("Created index and documents for {} pipeline.", pipeline.getName());
     }
 
-    /*private*/ PipelineDocRequests cleanCodeIndexAndCreateDeleteRequest(
+    PipelineDocRequests cleanCodeIndexAndCreateDeleteRequest(
             final Long pipelineId,
             final String pipelineIndex,
             final String codeIndex,
@@ -243,7 +243,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
     @Data
     @AllArgsConstructor
     @Builder
-    /*private*/ static class PipelineDocRequests {
+    static class PipelineDocRequests {
 
         private List<DocWriteRequest> pipelineRequests;
         private List<DocWriteRequest> codeRequests;

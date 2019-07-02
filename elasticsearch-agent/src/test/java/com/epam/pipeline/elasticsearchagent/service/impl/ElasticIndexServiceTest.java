@@ -43,12 +43,12 @@ class ElasticIndexServiceTest {
     private ElasticIndexService elasticIndexService;
 
     @Test
-    void createIndexIfNotExist() {
+    void createIndexIfNotExist() throws ElasticClientException {
         String expectedIndex = "newIndex";
         String expectedMappingsJson = "mappingsJson";
         String actualIndex = "newIndex";
         String actualMappingsJson = "mappingsJson";
-        try { doAnswer(invocation -> {
+         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
             Object arg1 = invocation.getArgument(1);
             assertEquals(expectedIndex, arg0);
@@ -57,9 +57,6 @@ class ElasticIndexServiceTest {
         }).when(elasticIndexService).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
         elasticIndexService.createIndexIfNotExist(actualIndex, actualMappingsJson);
             verify(elasticIndexService, atLeastOnce()).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
-        } catch (ElasticClientException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test

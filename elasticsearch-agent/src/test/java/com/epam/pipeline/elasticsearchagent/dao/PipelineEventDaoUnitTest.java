@@ -42,23 +42,6 @@ public class PipelineEventDaoUnitTest {
     }
 
     @Test
-    public void createPipelineEvent(){
-        PipelineEvent actualPipelineEvent = new PipelineEvent();
-        actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
-        actualPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
-        actualPipelineEvent.setEventType(EventType.INSERT);
-        actualPipelineEvent.setObjectId(1L);
-        actualPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
-        doAnswer(invocation -> {
-            Object arg0 = invocation.getArgument(0);
-            assertEquals(expectedPipelineEvent, arg0);
-            return null;
-        }).when(pipelineEventDao).createPipelineEvent(any(PipelineEvent.class));
-        pipelineEventDao.createPipelineEvent(actualPipelineEvent);
-        verify(pipelineEventDao, atLeastOnce()).createPipelineEvent(expectedPipelineEvent);
-    }
-
-    @Test
     public void loadPipelineEventsByObjectType() {
         PipelineEvent actualPipelineEvent = new PipelineEvent();
         actualPipelineEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE);
@@ -74,25 +57,6 @@ public class PipelineEventDaoUnitTest {
         assertEquals(expectedList, actualList);
         verify(pipelineEventDao, atLeastOnce())
                 .loadPipelineEventsByObjectType(expectedPipelineEvent.getObjectType(), expectedPipelineEvent.getCreatedDate());
-    }
-
-    @Test
-    public void deleteEventByObjectId() {
-        doAnswer(invocation -> {
-            Object arg0 = invocation.getArgument(0);
-            Object arg1 = invocation.getArgument(1);
-            Object arg2 = invocation.getArgument(2);
-            assertEquals(expectedPipelineEvent.getObjectId(), arg0);
-            assertEquals(expectedPipelineEvent.getObjectType(), arg1);
-            assertEquals(expectedPipelineEvent.getCreatedDate(), arg2);
-            return null;
-        }).when(pipelineEventDao).deleteEventByObjectId(any(Long.class), any(PipelineEvent.ObjectType.class), any(LocalDateTime.class));
-        pipelineEventDao
-                .deleteEventByObjectId(1L, PipelineEvent
-                        .ObjectType.PIPELINE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
-        verify(pipelineEventDao, atLeastOnce())
-                .deleteEventByObjectId(expectedPipelineEvent
-                        .getObjectId(), expectedPipelineEvent.getObjectType(), expectedPipelineEvent.getCreatedDate());
     }
 
     @Test
