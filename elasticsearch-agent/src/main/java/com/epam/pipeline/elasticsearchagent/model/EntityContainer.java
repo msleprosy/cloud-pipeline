@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -33,4 +34,16 @@ public class EntityContainer<T> {
     private PipelineUser owner;
     private Map<String, String> metadata;
     private PermissionsContainer permissions;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EntityContainer)) return false;
+        EntityContainer<?> that = (EntityContainer<?>) o;
+        return Objects.equals(getEntity(), that.getEntity()) &&
+                Objects.equals(getOwner(), that.getOwner()) &&
+                Objects.equals(getMetadata(), that.getMetadata()) &&
+                Objects.equals(getPermissions(), that.getPermissions());
+    }
+
 }

@@ -44,10 +44,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -162,7 +159,7 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         }
     }
 
-    private PipelineDocRequests buildDocRequests(final Long pipelineId,
+    /*private */PipelineDocRequests buildDocRequests(final Long pipelineId,
                                                  final List<PipelineEvent> events,
                                                  final String pipelineIndex,
                                                  final String codeIndex) {
@@ -243,6 +240,27 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         return requestsBuilder.build();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PipelineSynchronizer)) return false;
+        PipelineSynchronizer that = (PipelineSynchronizer) o;
+        return Objects.equals(getPipelineEventDao(), that.getPipelineEventDao()) &&
+                Objects.equals(getLoader(), that.getLoader()) &&
+                Objects.equals(getMapper(), that.getMapper()) &&
+                Objects.equals(getCloudPipelineAPIClient(), that.getCloudPipelineAPIClient()) &&
+                Objects.equals(getElasticsearchClient(), that.getElasticsearchClient()) &&
+                Objects.equals(getIndexService(), that.getIndexService()) &&
+                Objects.equals(getIndexPrefix(), that.getIndexPrefix()) &&
+                Objects.equals(getPipelineIndexMappingFile(), that.getPipelineIndexMappingFile()) &&
+                Objects.equals(getPipelineCodeIndexMappingFile(), that.getPipelineCodeIndexMappingFile()) &&
+                Objects.equals(getPipelineIndexName(), that.getPipelineIndexName()) &&
+                Objects.equals(getPipelineCodeIndexName(), that.getPipelineCodeIndexName()) &&
+                Objects.equals(getPipelineFileIndexPaths(), that.getPipelineFileIndexPaths()) &&
+                Objects.equals(getPipelineCodeHandler(), that.getPipelineCodeHandler()) &&
+                Objects.equals(getRequestSender(), that.getRequestSender());
+    }
+
     @Data
     @AllArgsConstructor
     @Builder
@@ -251,6 +269,17 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         private List<DocWriteRequest> pipelineRequests;
         private List<DocWriteRequest> codeRequests;
         private Long pipelineId;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof PipelineDocRequests)) return false;
+            PipelineDocRequests that = (PipelineDocRequests) o;
+            return Objects.equals(getPipelineRequests(), that.getPipelineRequests()) &&
+                    Objects.equals(getCodeRequests(), that.getCodeRequests()) &&
+                    Objects.equals(getPipelineId(), that.getPipelineId());
+        }
+
     }
 
 }
