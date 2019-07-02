@@ -19,6 +19,8 @@ package com.epam.pipeline.entity.issue;
 import com.epam.pipeline.vo.EntityVO;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,4 +44,23 @@ public class Issue {
     private List<String> labels;
     private List<IssueComment> comments;
     private List<Attachment> attachments;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Issue)) return false;
+        Issue issue = (Issue) o;
+        return Objects.equals(getId(), issue.getId()) &&
+                Objects.equals(getName(), issue.getName()) &&
+                Objects.equals(getText(), issue.getText()) &&
+                Objects.equals(getAuthor(), issue.getAuthor()) &&
+                Objects.equals(getEntity(), issue.getEntity()) &&
+                Objects.equals(getCreatedDate(), issue.getCreatedDate()) &&
+                Objects.equals(getUpdatedDate(), issue.getUpdatedDate()) &&
+                getStatus() == issue.getStatus() &&
+                Objects.equals(getLabels(), issue.getLabels()) &&
+                Objects.equals(getComments(), issue.getComments()) &&
+                Objects.equals(getAttachments(), issue.getAttachments());
+    }
+
 }

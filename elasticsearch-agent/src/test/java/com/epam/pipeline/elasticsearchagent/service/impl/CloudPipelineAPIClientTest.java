@@ -2,7 +2,10 @@ package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.model.PipelineRunWithLog;
 import com.epam.pipeline.elasticsearchagent.service.impl.converter.storage.DataStorageLoader;
+import com.epam.pipeline.entity.configuration.RunConfiguration;
 import com.epam.pipeline.entity.datastorage.*;
+import com.epam.pipeline.entity.issue.Issue;
+import com.epam.pipeline.entity.metadata.MetadataEntity;
 import com.epam.pipeline.entity.metadata.MetadataEntry;
 import com.epam.pipeline.entity.pipeline.*;
 import com.epam.pipeline.entity.region.AbstractCloudRegion;
@@ -193,18 +196,37 @@ class CloudPipelineAPIClientTest {
 
     @Test
     void loadIssue() {
+        Issue expectedIssue = new Issue();
+        Issue actualIssue = new Issue();
+        when(cloudPipelineAPIClient.loadIssue(1L)).thenReturn(expectedIssue);
+        cloudPipelineAPIClient.loadIssue(1L);
+        assertEquals(expectedIssue, actualIssue);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadIssue(1L);
     }
 
     @Test
     void loadMetadataEntity() {
+        MetadataEntity expectedMetadataEntity = new MetadataEntity();
+        MetadataEntity actualMetadataEntity = new MetadataEntity();
+        when(cloudPipelineAPIClient.loadMetadataEntity(1L)).thenReturn(expectedMetadataEntity);
+        cloudPipelineAPIClient.loadMetadataEntity(1L);
+        assertEquals(expectedMetadataEntity, actualMetadataEntity);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadMetadataEntity(1L);
     }
 
     @Test
     void loadRunConfiguration() {
+        RunConfiguration expectedRunConfiguration = new RunConfiguration();
+        RunConfiguration actualRunConfiguration = new RunConfiguration();
+        when(cloudPipelineAPIClient.loadRunConfiguration(1L)).thenReturn(expectedRunConfiguration);
+        cloudPipelineAPIClient.loadRunConfiguration(1L);
+        assertEquals(expectedRunConfiguration, actualRunConfiguration);
+        verify(cloudPipelineAPIClient, atLeastOnce()).loadRunConfiguration(1L);
     }
 
     @Test
     void loadPipeline() {
+        
     }
 
     @Test
