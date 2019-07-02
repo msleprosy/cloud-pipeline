@@ -240,27 +240,6 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         return requestsBuilder.build();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PipelineSynchronizer)) return false;
-        PipelineSynchronizer that = (PipelineSynchronizer) o;
-        return Objects.equals(getPipelineEventDao(), that.getPipelineEventDao()) &&
-                Objects.equals(getLoader(), that.getLoader()) &&
-                Objects.equals(getMapper(), that.getMapper()) &&
-                Objects.equals(getCloudPipelineAPIClient(), that.getCloudPipelineAPIClient()) &&
-                Objects.equals(getElasticsearchClient(), that.getElasticsearchClient()) &&
-                Objects.equals(getIndexService(), that.getIndexService()) &&
-                Objects.equals(getIndexPrefix(), that.getIndexPrefix()) &&
-                Objects.equals(getPipelineIndexMappingFile(), that.getPipelineIndexMappingFile()) &&
-                Objects.equals(getPipelineCodeIndexMappingFile(), that.getPipelineCodeIndexMappingFile()) &&
-                Objects.equals(getPipelineIndexName(), that.getPipelineIndexName()) &&
-                Objects.equals(getPipelineCodeIndexName(), that.getPipelineCodeIndexName()) &&
-                Objects.equals(getPipelineFileIndexPaths(), that.getPipelineFileIndexPaths()) &&
-                Objects.equals(getPipelineCodeHandler(), that.getPipelineCodeHandler()) &&
-                Objects.equals(getRequestSender(), that.getRequestSender());
-    }
-
     @Data
     @AllArgsConstructor
     @Builder
@@ -269,16 +248,6 @@ public class PipelineSynchronizer implements ElasticsearchSynchronizer {
         private List<DocWriteRequest> pipelineRequests;
         private List<DocWriteRequest> codeRequests;
         private Long pipelineId;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof PipelineDocRequests)) return false;
-            PipelineDocRequests that = (PipelineDocRequests) o;
-            return Objects.equals(getPipelineRequests(), that.getPipelineRequests()) &&
-                    Objects.equals(getCodeRequests(), that.getCodeRequests()) &&
-                    Objects.equals(getPipelineId(), that.getPipelineId());
-        }
 
     }
 
