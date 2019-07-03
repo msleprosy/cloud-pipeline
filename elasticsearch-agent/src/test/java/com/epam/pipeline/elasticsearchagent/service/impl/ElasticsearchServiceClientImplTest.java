@@ -14,6 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,9 +33,12 @@ class ElasticsearchServiceClientImplTest {
     private String expectedIndexName;
     private String expectedAlias;
 
+    public ElasticsearchServiceClientImplTest(RestHighLevelClient client) {
+        this.client = client;
+    }
+
     @BeforeEach
     public void setup() {
-
         expectedIndexName = "indexName";
         expectedAlias = "alias";
     }
@@ -55,7 +63,7 @@ class ElasticsearchServiceClientImplTest {
         verify(elasticsearchServiceClientImpl, atLeastOnce()).createIndex(expectedIndexName, expectedSource);
     }
 
-/*    @Test
+    @Test
     void sendRequests() throws IOException {
         DocWriteRequest expectedDocWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
@@ -68,7 +76,7 @@ class ElasticsearchServiceClientImplTest {
         elasticsearchServiceClientImpl.sendRequests(expectedIndexName, expectedListOfRequests);
         assertEquals(expectedBulkResponse, expectedBulkResponse);
         verify(elasticsearchServiceClientImpl).sendRequests(expectedIndexName, expectedListOfRequests);
-    }*/
+    }
 
     @Test
     void deleteIndex() {
