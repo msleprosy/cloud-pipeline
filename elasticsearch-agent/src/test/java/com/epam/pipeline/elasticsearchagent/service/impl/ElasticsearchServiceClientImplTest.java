@@ -15,12 +15,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -44,11 +38,21 @@ class ElasticsearchServiceClientImplTest {
     @Mock
     private ElasticsearchServiceClientImpl elasticsearchServiceClientImpl;
 
-    @Mock
-    private SearchResponse expectedSearchResponse;
-
     @Test
     void createIndex() {
+        String expectedIndexName = "indexName";
+        String expectedSource = "source";
+        String actualIndexName = "indexName";
+        String actualSource = "source";
+        doAnswer(invocation -> {
+            Object arg0 = invocation.getArgument(0);
+            Object arg1 = invocation.getArgument(1);
+            assertEquals(expectedIndexName, arg0);
+            assertEquals(expectedSource, arg1);
+            return null;
+        }).when(elasticsearchServiceClientImpl).createIndex(expectedIndexName, expectedSource);
+        elasticsearchServiceClientImpl.createIndex(actualIndexName, actualSource);
+        verify(elasticsearchServiceClientImpl, atLeastOnce()).createIndex(expectedIndexName, expectedSource);
     }
 
 /*    @Test
