@@ -100,7 +100,6 @@ class ElasticIndexServiceTest {
         expectedListOfRequests.add(docWriteRequest);
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
-
         when(elasticIndexService.buildDeleteRequests(expectedIndexName, expectedSearchRequest)).thenReturn(expectedListOfRequests);
         elasticIndexService.buildDeleteRequests(actualIndexName, actualSearchRequest);
         assertEquals(expectedListOfRequests, actualListOfRequests);
