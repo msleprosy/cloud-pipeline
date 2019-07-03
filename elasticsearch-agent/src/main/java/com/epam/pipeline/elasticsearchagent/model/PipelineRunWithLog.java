@@ -34,11 +34,20 @@ public class PipelineRunWithLog {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PipelineRunWithLog)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PipelineRunWithLog)) {
+            return false;
+        }
         PipelineRunWithLog that = (PipelineRunWithLog) o;
         return Objects.equals(getPipelineRun(), that.getPipelineRun()) &&
                 Objects.equals(getRunOwner(), that.getRunOwner()) &&
                 Objects.equals(getRunLogs(), that.getRunLogs());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPipelineRun(), getRunOwner(), getRunLogs());
     }
 }

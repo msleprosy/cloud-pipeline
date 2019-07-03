@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.atLeast;
 
 @ExtendWith(MockitoExtension.class)
 
@@ -71,13 +69,12 @@ class ElasticsearchServiceClientImplTest {
         String expectedIndexName = "String indexName";
         BulkRequest bulkRequest = new BulkRequest();
         bulkRequest.add(expectedDocWriteRequest);
-        BulkResponse expectedBulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);;
+        BulkResponse expectedBulkResponse = client.bulk(bulkRequest, RequestOptions.DEFAULT);
         when(elasticsearchServiceClientImpl.sendRequests(expectedIndexName, expectedListOfRequests)).thenReturn(expectedBulkResponse);
         elasticsearchServiceClientImpl.sendRequests(expectedIndexName, expectedListOfRequests);
         assertEquals(expectedBulkResponse, expectedBulkResponse);
         verify(elasticsearchServiceClientImpl).sendRequests(expectedIndexName, expectedListOfRequests);
     }
-
     @Test
     void deleteIndex() {
         String actualIndexName = "indexName";

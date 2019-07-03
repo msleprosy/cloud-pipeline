@@ -1,7 +1,6 @@
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.model.PipelineRunWithLog;
-import com.epam.pipeline.elasticsearchagent.service.impl.converter.storage.DataStorageLoader;
 import com.epam.pipeline.entity.configuration.RunConfiguration;
 import com.epam.pipeline.entity.datastorage.*;
 import com.epam.pipeline.entity.git.GitRepositoryEntry;
@@ -18,10 +17,7 @@ import com.epam.pipeline.vo.EntityVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;

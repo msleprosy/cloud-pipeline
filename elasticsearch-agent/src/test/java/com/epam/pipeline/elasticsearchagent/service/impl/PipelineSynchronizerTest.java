@@ -25,12 +25,10 @@ import com.epam.pipeline.entity.pipeline.Revision;
 import com.epam.pipeline.entity.utils.DateUtils;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.update.UpdateRequest;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;

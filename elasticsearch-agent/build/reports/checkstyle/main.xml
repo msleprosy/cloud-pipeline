@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="7.2">
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\ElasticsearchAgentApplication.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\AppConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\AzureBlobStorageSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\AzureFileSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\CommonSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\DBConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\ElasticsearchConfig.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\NFSStorageSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\S3FileSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\S3StorageSyncConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\app\WebMvcConfiguration.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\dao\PipelineEventDao.java">
+<error line="73" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 5, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\exception\ElasticClientException.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\exception\EntityNotFoundException.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\ConfigurationEntryDoc.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\DataStorageDoc.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\EntityContainer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\EventType.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\PermissionsContainer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\PipelineDoc.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\PipelineEvent.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\PipelineRunWithLog.java">
+<error line="35" column="5" severity="warning" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+<error line="37" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="38" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\RunConfigurationDoc.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitCommit.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitEvent.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitEventData.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitEventDescription.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitEventType.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitFileEvent.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\model\git\GitProject.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\rest\AbstractRestController.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\rest\git\GitHookController.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\BulkRequestCreator.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\BulkResponsePostProcessor.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ElasticsearchAgentService.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ElasticsearchServiceClient.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ElasticsearchSynchronizer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\EntityLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\EntityMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\EventProcessor.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\EventToRequestConverter.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ObjectStorageFileManager.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ObjectStorageIndex.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\ResponseIdConverter.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\git\GitEventProcessor.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\git\GitHookService.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\git\GitHookServiceImpl.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\git\GitPushEventProcessor.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\git\GitTagEventProcessor.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\AzureBlobManager.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\BulkRequestSender.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\BulkResponsePostProcessorImpl.java">
+<error line="56" column="5" severity="warning" message="Definition of &apos;equals()&apos; without corresponding definition of &apos;hashCode()&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.EqualsHashCodeCheck"/>
+<error line="58" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="59" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\CloudPipelineAPIClient.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticIndexService.java">
+<error line="30" column="8" severity="warning" message="Unused import - org.elasticsearch.tasks.TaskId." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="101" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 5, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="116" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 5, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="123" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 5, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+<error line="127" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 5, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticsearchServiceClientImpl.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\EntitySynchronizer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\IndexRequestContainer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\NFSSynchronizer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\ObjectStorageIndexImpl.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\PipelineCodeHandler.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\PipelineSynchronizer.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\S3FileManager.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\AbstractCloudPipelineEntityLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\AbstractSecuredEntityLoaderImpl.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\EventToRequestConverterImpl.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\ConfigurationEntryMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\ConfigurationIdConverter.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\RunConfigurationDocumentBuilder.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\RunConfigurationEventConverter.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\RunConfigurationLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\dockerregistry\DockerRegistryLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\dockerregistry\DockerRegistryMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\folder\FolderLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\folder\FolderMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\issue\IssueLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\issue\IssueMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\metadata\MetadataEntityLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\metadata\MetadataEntityMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\pipeline\PipelineCodeMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\pipeline\PipelineIdConverter.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\pipeline\PipelineLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\pipeline\PipelineMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\run\PipelineRunLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\run\PipelineRunMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\storage\DataStorageIndexCleaner.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\storage\DataStorageLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\storage\DataStorageMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\storage\StorageFileMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\tool\ToolLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\tool\ToolMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\toolgroup\ToolGroupLoader.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\toolgroup\ToolGroupMapper.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\utils\ESConstants.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\utils\EventProcessorUtils.java">
+</file>
+<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\main\java\com\epam\pipeline\elasticsearchagent\utils\Utils.java">
+</file>
+</checkstyle>

@@ -55,9 +55,18 @@ public class BulkResponsePostProcessorImpl implements BulkResponsePostProcessor 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BulkResponsePostProcessorImpl)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BulkResponsePostProcessorImpl)) {
+            return false;
+        }
         BulkResponsePostProcessorImpl that = (BulkResponsePostProcessorImpl) o;
         return Objects.equals(pipelineEventDao, that.pipelineEventDao);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pipelineEventDao);
     }
 }
