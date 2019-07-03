@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -50,5 +51,13 @@ public class BulkResponsePostProcessorImpl implements BulkResponsePostProcessor 
         } else {
             objectTypes.forEach(type -> pipelineEventDao.deleteEventByObjectId(entityId, type, syncStart));
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BulkResponsePostProcessorImpl)) return false;
+        BulkResponsePostProcessorImpl that = (BulkResponsePostProcessorImpl) o;
+        return Objects.equals(pipelineEventDao, that.pipelineEventDao);
     }
 }

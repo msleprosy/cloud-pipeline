@@ -123,7 +123,7 @@ public class PipelineCodeHandler {
                 .collect(Collectors.toList());
     }
 
-    private List<DocWriteRequest> getDocRequestsByType(final String indexName,
+    /*private*/ List<DocWriteRequest> getDocRequestsByType(final String indexName,
                                                        final Pipeline pipeline,
                                                        final PermissionsContainer permissions,
                                                        final GitEventType gitEventType,
@@ -172,7 +172,7 @@ public class PipelineCodeHandler {
     }
 
 
-    private GitEventDescription mapPipelineEventToGitEvent(final PipelineEvent event) {
+    /*private*/ GitEventDescription mapPipelineEventToGitEvent(final PipelineEvent event) {
         try {
             GitEventData gitEventData = objectMapper.readValue(event.getData(), GitEventData.class);
             return new GitEventDescription(event, gitEventData);

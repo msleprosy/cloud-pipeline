@@ -16,10 +16,7 @@
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
-import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
-import com.epam.pipeline.elasticsearchagent.model.EventType;
-import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
-import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
+import com.epam.pipeline.elasticsearchagent.model.*;
 import com.epam.pipeline.elasticsearchagent.model.git.GitEventData;
 import com.epam.pipeline.elasticsearchagent.model.git.GitEventDescription;
 import com.epam.pipeline.elasticsearchagent.model.git.GitEventType;
@@ -46,15 +43,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.epam.pipeline.elasticsearchagent.TestConstants.METADATA;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.PERMISSIONS_CONTAINER;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_DESCRIPTION;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_NAME;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_REPO;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_TEMPLATE;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_VALUE;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.TEST_VERSION;
-import static com.epam.pipeline.elasticsearchagent.TestConstants.USER;
+import static com.epam.pipeline.elasticsearchagent.ObjectCreationUtils.buildPermissions;
+import static com.epam.pipeline.elasticsearchagent.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -71,6 +61,9 @@ class PipelineCodeHandlerTest {
     private static final String FILE_INDEX_PATHS = "config.json";
     private static final String FOLDER_INDEX_PATHS = "docs/";
     private static final String VERSION = "1";
+    private DocWriteRequest docWriteRequest;
+    private List<DocWriteRequest> expectedListOfRequests;
+    private Pipeline expectedPipeline;
 
     @Mock
     private PipelineLoader pipelineLoader;
@@ -142,6 +135,12 @@ class PipelineCodeHandlerTest {
                 .metadata(METADATA)
                 .permissions(PERMISSIONS_CONTAINER)
                 .build();
+
+        docWriteRequest = new UpdateRequest();
+        expectedListOfRequests = new ArrayList<>();
+        expectedListOfRequests.add(docWriteRequest);
+
+        expectedPipeline = new Pipeline();
     }
 
    /* @Test
@@ -169,6 +168,62 @@ class PipelineCodeHandlerTest {
                 .createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
     }*/
 
+   @Test
+   void getDocRequestsByType(){
+       GitEventType expectedGitEventType = GitEventType.push;
+       GitEventData expectedGitEventData = new GitEventData();
+       List<String> paths = new ArrayList<>();
+       paths.add(TEST_PATH);
+       expectedGitEventData.setGitEventType(expectedGitEventType);
+       expectedGitEventData.setPaths(paths);
+       expectedGitEventData.setVersion(TEST_VERSION);
+       GitEventDescription expectedGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+       List<GitEventDescription> expectedGitEventDescriptionList = new ArrayList<>();
+       GitEventDescription actualGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+       expectedGitEventDescriptionList.add(expectedGitEventDescription);
+       List<GitEventDescription> actualGitEventDescriptionList = new ArrayList<>();
+       actualGitEventDescriptionList.add(actualGitEventDescription);
+       GitEventType actualGitEventType = GitEventType.push;
+       List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
+       actualListOfRequests.add(docWriteRequest);
+       String actualIndexName = "pipeline-code";
+       PermissionsContainer actualPermissionContainer = buildPermissions(ALLOWED_USERS, DENIED_USERS, ALLOWED_GROUPS, DENIED_GROUPS);
+       Pipeline actualPipeline = new Pipeline();
+       actualPipeline.setId(1L);
+       actualPipeline.setName(TEST_NAME);
+       actualPipeline.setCreatedDate(DateUtils.now());
+       actualPipeline.setParentFolderId(2L);
+       actualPipeline.setDescription(TEST_DESCRIPTION);
+       actualPipeline.setRepository(TEST_REPO);
+       actualPipeline.setTemplateId(TEST_TEMPLATE);
+
+       when(pipelineCodeHandler
+               .getDocRequestsByType(INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER, expectedGitEventType, expectedGitEventDescriptionList))
+               .thenReturn(expectedListOfRequests);
+       pipelineCodeHandler
+               .getDocRequestsByType(actualIndexName, actualPipeline, actualPermissionContainer, actualGitEventType,actualGitEventDescriptionList);
+       assertEquals(expectedListOfRequests, actualListOfRequests);
+       verify(pipelineCodeHandler)
+               .getDocRequestsByType(INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER, expectedGitEventType, expectedGitEventDescriptionList);
+   }
+
+   /*@Test
+   void mapPipelineEventToGitEvent(){
+       GitEventType expectedGitEventType = GitEventType.push;
+       GitEventData expectedGitEventData = new GitEventData();
+       List<String> paths = new ArrayList<>();
+       paths.add(TEST_PATH);
+       expectedGitEventData.setGitEventType(expectedGitEventType);
+       expectedGitEventData.setPaths(paths);
+       expectedGitEventData.setVersion(TEST_VERSION);
+       GitEventDescription expectedGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+
+       when(pipelineCodeHandler.mapPipelineEventToGitEvent(expectedPipelineEvent)).thenReturn(expectedGitEventDescription);
+       pipelineCodeHandler.mapPipelineEventToGitEvent(expectedPipelineEvent);
+       assertEquals(expectedGitEventDescription, expectedGitEventDescription);
+       verify(pipelineCodeHandler).mapPipelineEventToGitEvent(expectedPipelineEvent);
+   }
+*/
     @Test
     void shouldProcessGitPushEventTest() throws EntityNotFoundException, IOException {
         when(pipelineLoader.loadEntity(anyLong())).thenReturn(Optional.ofNullable(container));
