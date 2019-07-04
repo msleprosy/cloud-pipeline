@@ -31,9 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -41,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,7 +57,7 @@ class PipelineSynchronizerTest{
     private PipelineEvent expectedPipelineCodeEvent;
     private List<PipelineEvent> expectedPipelineEventList;
     private List<PipelineEvent> expectedPipelineCodeEventList;
-    private List<PipelineEvent> commonPipelineEventsList;
+    private List<PipelineEvent> commonPipelineEventList;
     private LocalDateTime expectedSyncStart;
     private String expectedPipelineIndex;
     private String expectedCodeIndex;
@@ -88,9 +85,11 @@ class PipelineSynchronizerTest{
         expectedPipelineEventList.add(expectedPipelineEvent);
         expectedPipelineCodeEventList = new ArrayList<>();
         expectedPipelineCodeEventList.add(expectedPipelineCodeEvent);
+
         expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
         expectedPipelineIndex = "pipelineIndex";
         expectedCodeIndex = "codeIndex";
+
         docWriteRequest = new UpdateRequest();
         expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
@@ -109,38 +108,41 @@ class PipelineSynchronizerTest{
 
     @Test
     void synchronize() {
-        List<PipelineEvent> expectedPipelineCodeEventsList = new ArrayList<>();
-        expectedPipelineCodeEventsList.add(expectedPipelineCodeEvent);
         PipelineEvent.ObjectType expectedPipelineCodeEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
         PipelineEvent.ObjectType expectedPipelineEventObjectType = PipelineEvent.ObjectType.PIPELINE;
         when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineCodeEventObjectType, expectedSyncStart))
-                .thenReturn(expectedPipelineCodeEventsList);
-        List<PipelineEvent> actualPipelineCodeEvents = pipelineEventDao
+                .thenReturn(expectedPipelineCodeEventList);
+        List<PipelineEvent> actualPipelineCodeEventList = pipelineEventDao
                 .loadPipelineEventsByObjectType(PipelineEvent
                         .ObjectType.PIPELINE_CODE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        assertEquals(expectedPipelineCodeEventList, actualPipelineCodeEventList);
         when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineEventObjectType, expectedSyncStart))
                 .thenReturn(expectedPipelineEventList);
-        List<PipelineEvent> actualPipelineEvents = EventProcessorUtils.mergeEvents(
+        List<PipelineEvent> actualPipelineEventList = EventProcessorUtils.mergeEvents(
                 pipelineEventDao
                         .loadPipelineEventsByObjectType(PipelineEvent
                                 .ObjectType.PIPELINE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
+        assertEquals(expectedPipelineEventList, actualPipelineEventList);
 
-        commonPipelineEventsList = new ArrayList<>(expectedPipelineEventList);
-        commonPipelineEventsList.addAll(expectedPipelineCodeEventsList);
+        commonPipelineEventList = new ArrayList<>(expectedPipelineEventList);
+        commonPipelineEventList.addAll(expectedPipelineCodeEventList);
 
         doAnswer(invocationOnPipelineSynchronizer -> {
             Object pipelineEvent = invocationOnPipelineSynchronizer.getArgument(0);
             Object pipeLineEventList = invocationOnPipelineSynchronizer.getArgument(1);
             Object syncStart = invocationOnPipelineSynchronizer.getArgument(2);
             assertEquals(expectedPipelineCodeEvent.getObjectId(), pipelineEvent);
-            assertEquals(commonPipelineEventsList, pipeLineEventList);
+            assertEquals(commonPipelineEventList, pipeLineEventList);
             assertEquals(expectedSyncStart, syncStart);
             return null;
-        }).when(pipelineSynchronizer).synchronizePipelineEvents(any(Long.class), anyList(), any(LocalDateTime.class));
-        Stream.of(actualPipelineEvents, actualPipelineCodeEvents)
+        }).when(pipelineSynchronizer).synchronizePipelineEvents(expectedPipelineCodeEvent.getObjectId(), commonPipelineEventList, expectedSyncStart);
+        Stream.of(actualPipelineEventList, actualPipelineCodeEventList)
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(PipelineEvent::getObjectId))
-                .forEach((id, events) -> pipelineSynchronizer.synchronizePipelineEvents(id, events, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
+                .forEach((id, events) -> pipelineSynchronizer
+                        .synchronizePipelineEvents(id, events, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
+        verify(pipelineSynchronizer, atLeast(1))
+                .synchronizePipelineEvents(expectedPipelineCodeEvent.getObjectId(), commonPipelineEventList, expectedSyncStart);
     }
 
     @Test
