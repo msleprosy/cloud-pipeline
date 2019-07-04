@@ -16,6 +16,7 @@
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.dao.PipelineEventDao;
+import com.epam.pipeline.elasticsearchagent.exception.ElasticClientException;
 import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
 import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -64,6 +66,8 @@ class PipelineSynchronizerTest{
     private PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests;
     private DocWriteRequest docWriteRequest;
     List<DocWriteRequest> expectedListOfRequests;
+
+    @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
 
     @BeforeEach
     public void setup() {
@@ -106,6 +110,9 @@ class PipelineSynchronizerTest{
     @Mock
     private PipelineSynchronizer pipelineSynchronizer;
 
+    @Mock
+    private ElasticIndexService elasticIndexService;
+
     @Test
     void synchronize() {
         PipelineEvent.ObjectType expectedPipelineCodeEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
@@ -143,6 +150,29 @@ class PipelineSynchronizerTest{
                         .synchronizePipelineEvents(id, events, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
         verify(pipelineSynchronizer, atLeast(1))
                 .synchronizePipelineEvents(expectedPipelineCodeEvent.getObjectId(), commonPipelineEventList, expectedSyncStart);
+    }
+
+    @Test
+    void synchronizePipelineEvents() throws ElasticClientException {
+        when(pipelineEventDao.loadPipelineEventsByObjectType(PipelineEvent.ObjectType.PIPELINE, expectedSyncStart))
+                .thenReturn(expectedPipelineEventList);
+        List<PipelineEvent> actualPipelineEventList = EventProcessorUtils.mergeEvents(
+                pipelineEventDao
+                        .loadPipelineEventsByObjectType(PipelineEvent
+                                .ObjectType.PIPELINE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
+        when(pipelineSynchronizer
+                .buildDocRequests(expectedPipelineEvent.getObjectId(), expectedPipelineEventList, expectedPipelineIndex, expectedCodeIndex))
+                .thenReturn(expectedPipelineDocRequests);
+        pipelineSynchronizer.buildDocRequests(1L, actualPipelineEventList, "pipelineIndex", "codeIndex");
+
+        doAnswer(invocationOnElasticIndexService -> {
+            Object pipelineIndex = invocationOnElasticIndexService.getArgument(0);
+            Object pipelineIndexMappingFile = invocationOnElasticIndexService.getArgument(1);
+            assertEquals(expectedPipelineIndex, pipelineIndex);
+            assertEquals(pipelineIndexMappingFile, pipelineIndexMappingFile);
+            return null;
+        }).when(elasticIndexService).createIndexIfNotExist(expectedPipelineIndex, pipelineIndexMappingFile);
+        elasticIndexService.createIndexIfNotExist("pipelineIndex", pipelineIndexMappingFile);
     }
 
     @Test
