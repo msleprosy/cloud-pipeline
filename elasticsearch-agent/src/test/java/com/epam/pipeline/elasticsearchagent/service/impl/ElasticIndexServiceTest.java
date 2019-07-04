@@ -92,40 +92,21 @@ class ElasticIndexServiceTest {
     @Test
     void shouldReturnDeleteRequests() {
         SearchRequest expectedSearchRequest = new SearchRequest();
-/*        String actualId = "id";
-        String actualIndexName = "indexName";
-        DocWriteRequest docWriteRequest = new UpdateRequest();
-        List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
-        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
-        actualListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.getDeleteRequests(expectedId, expectedIndexName)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequests(actualId, actualIndexName);
-        assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);*/
         when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName))
                 .thenReturn(expectedSearchRequest);
         SearchRequest actualSearchRequest = elasticIndexService
                 .buildSearchRequestForConfigEntries("id", "indexName");
         assertEquals(expectedSearchRequest, actualSearchRequest);
+        SearchSourceBuilder searchSource = new SearchSourceBuilder()
+                .query(QueryBuilders.wildcardQuery("id", new ElasticIndexService().getWildcardId(expectedId)));
+         SearchRequest searchRequest = new SearchRequest(expectedIndexName).source(searchSource);
         List<DocWriteRequest> actualListOfRequests = elasticIndexService
-                .buildDeleteRequests("id", actualSearchRequest);
+                .buildDeleteRequests("id", searchRequest);
         assertEquals(expectedListOfRequests, actualListOfRequests);
     }
 
     @Test
-    void buildSearchRequestForConfigEntries(){
-        /*String actualId = "id";
-        String actualIndexName = "indexName";
-        SearchRequest actualSearchRequest = new SearchRequest();
-        when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName)).thenReturn(expectedSearchRequest);
-        elasticIndexService.buildSearchRequestForConfigEntries(actualId, actualIndexName);
-        assertEquals(expectedSearchRequest, actualSearchRequest);
-        verify(elasticIndexService).buildSearchRequestForConfigEntries(expectedId, expectedIndexName);*/
-    }
-
-    @Test
-    void getWildcardId(){
+    void shouldGetWildcardId(){
         String expectedWildCardId = expectedId + ID_DELIMITER + WILDCARD;
         String actualId = "id";
         String actualWildCardId = actualId + ID_DELIMITER + WILDCARD;
