@@ -1,9 +1,13 @@
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.exception.ElasticClientException;
+import com.epam.pipeline.elasticsearchagent.service.ElasticsearchServiceClient;
+import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,6 +46,9 @@ class ElasticIndexServiceTest {
     }
 
     @Mock
+    private ElasticsearchServiceClient elasticsearchServiceClient;
+
+    @Mock
     private ElasticIndexService elasticIndexService;
 
     @Test
@@ -56,24 +63,34 @@ class ElasticIndexServiceTest {
             assertEquals(expectedIndex, index);
             assertEquals(expectedMappingsJson, mappingsJson);
             return null;
-        }).when(elasticIndexService).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
-        elasticIndexService.createIndexIfNotExist(actualIndex, actualMappingsJson);
-            verify(elasticIndexService, atLeastOnce()).createIndexIfNotExist(expectedIndex, expectedMappingsJson);
+        }).when(elasticsearchServiceClient).createIndex(expectedIndex, expectedMappingsJson);
+        elasticsearchServiceClient.createIndex(actualIndex, actualMappingsJson);
+        verify(elasticsearchServiceClient, atLeastOnce()).createIndex(expectedIndex, expectedMappingsJson);
     }
 
     @Test
-    void getDeleteRequestsByTerm() {
+    void shouldReturnDeleteRequestsByTerm() {
+        SearchRequest expectedRequest = new SearchRequest();
         String expectedField = "field";
         String expectedValue = "value";
-        String actualField = "field";
+
+        /*String actualField = "field";
         String actualValue = "value";
-        String actualIndexName = "indexName";
+        String actualIndexName = "indexName";*/
         List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
         actualListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName)).thenReturn(expectedListOfRequests);
+
+        when(elasticIndexService.buildDeleteRequests(eq(expectedIndexName), any(SearchRequest.class)))
+                .thenReturn(expectedListOfRequests);
+        SearchSourceBuilder searchSource = new SearchSourceBuilder()
+                .query(QueryBuilders.termQuery(expectedField, expectedValue));
+        SearchRequest actualRequest = new SearchRequest(expectedIndexName).source(searchSource);
+        elasticIndexService.buildDeleteRequests("indexName", actualRequest);
+        /*when(elasticIndexService.getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName)).thenReturn(expectedListOfRequests);
         elasticIndexService.getDeleteRequestsByTerm(actualField, actualValue, actualIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);
+        verify(elasticIndexService).getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);*/
+
     }
 
     @Test
