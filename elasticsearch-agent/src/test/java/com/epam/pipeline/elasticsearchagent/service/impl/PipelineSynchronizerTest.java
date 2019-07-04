@@ -15,11 +15,13 @@
  */
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
+import com.epam.pipeline.elasticsearchagent.dao.PipelineEventDao;
 import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
 import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
+import com.epam.pipeline.elasticsearchagent.utils.EventProcessorUtils;
 import com.epam.pipeline.entity.pipeline.Pipeline;
 import com.epam.pipeline.entity.pipeline.Revision;
 import com.epam.pipeline.entity.utils.DateUtils;
@@ -82,11 +84,13 @@ class PipelineSynchronizerTest{
     }
 
     @Mock
+    private PipelineEventDao pipelineEventDao;
+
     private PipelineSynchronizer pipelineSynchronizer;
 
     @Test
     void synchronize() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(2);
+        /*TimeUnit.SECONDS.sleep(2);
         LocalDateTime expectedLastSyncTime = LocalDateTime.of(2019, Month.JUNE, 25, 11, 11, 0);
         doAnswer(invocation -> {
             Object arg0 = invocation.getArgument(0);
@@ -99,7 +103,19 @@ class PipelineSynchronizerTest{
                 .synchronize(LocalDateTime
                         .of(2019, Month.JUNE, 26, 11, 11, 0), LocalDateTime
                         .of(2019, Month.JUNE, 25, 11, 11, 0));
-        verify(pipelineSynchronizer, atLeast(1)).synchronize(expectedSyncStart, expectedLastSyncTime);
+        verify(pipelineSynchronizer, atLeast(1)).synchronize(expectedSyncStart, expectedLastSyncTime);*/
+        List<PipelineEvent> expectedPipelineCodeEventsList = new ArrayList<>();
+        expectedPipelineCodeEventsList.add(expectedPipelineEvent);
+        PipelineEvent.ObjectType expectedPipelineEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
+        when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineEventObjectType, expectedSyncStart))
+                .thenReturn(expectedPipelineCodeEventsList);
+        List<PipelineEvent> actualpipelineCodeEvents = pipelineEventDao
+                .loadPipelineEventsByObjectType(PipelineEvent
+                        .ObjectType.PIPELINE_CODE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        List<PipelineEvent> actualpipelinevents = EventProcessorUtils.mergeEvents(
+                pipelineEventDao
+                        .loadPipelineEventsByObjectType(PipelineEvent
+                                .ObjectType.PIPELINE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
     }
 
     @Test
