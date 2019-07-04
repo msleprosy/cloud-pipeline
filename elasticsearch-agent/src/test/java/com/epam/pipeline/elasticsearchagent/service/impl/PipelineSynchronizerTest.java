@@ -112,11 +112,14 @@ class PipelineSynchronizerTest{
         List<PipelineEvent> expectedPipelineCodeEventsList = new ArrayList<>();
         expectedPipelineCodeEventsList.add(expectedPipelineCodeEvent);
         PipelineEvent.ObjectType expectedPipelineCodeEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
+        PipelineEvent.ObjectType expectedPipelineEventObjectType = PipelineEvent.ObjectType.PIPELINE;
         when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineCodeEventObjectType, expectedSyncStart))
                 .thenReturn(expectedPipelineCodeEventsList);
         List<PipelineEvent> actualPipelineCodeEvents = pipelineEventDao
                 .loadPipelineEventsByObjectType(PipelineEvent
                         .ObjectType.PIPELINE_CODE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineEventObjectType, expectedSyncStart))
+                .thenReturn(expectedPipelineEventList);
         List<PipelineEvent> actualPipelineEvents = EventProcessorUtils.mergeEvents(
                 pipelineEventDao
                         .loadPipelineEventsByObjectType(PipelineEvent
@@ -124,10 +127,6 @@ class PipelineSynchronizerTest{
 
         commonPipelineEventsList = new ArrayList<>(expectedPipelineEventList);
         commonPipelineEventsList.addAll(expectedPipelineCodeEventsList);
-        /*Stream.of(expectedPipelineEventList, expectedPipelineCodeEvent)
-                .flatMap(Collection::stream)
-                .collect(Collectors.groupingBy(PipelineEvent::getObjectId))
-                .forEach((id, events) -> commonPipelineEventsList = events);*/
 
         doAnswer(invocationOnPipelineSynchronizer -> {
             Object pipelineEvent = invocationOnPipelineSynchronizer.getArgument(0);
@@ -138,7 +137,7 @@ class PipelineSynchronizerTest{
             assertEquals(expectedSyncStart, syncStart);
             return null;
         }).when(pipelineSynchronizer).synchronizePipelineEvents(any(Long.class), anyList(), any(LocalDateTime.class));
-        Stream.of(expectedPipelineEventList, actualPipelineCodeEvents)
+        Stream.of(actualPipelineEvents, actualPipelineCodeEvents)
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(PipelineEvent::getObjectId))
                 .forEach((id, events) -> pipelineSynchronizer.synchronizePipelineEvents(id, events, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
