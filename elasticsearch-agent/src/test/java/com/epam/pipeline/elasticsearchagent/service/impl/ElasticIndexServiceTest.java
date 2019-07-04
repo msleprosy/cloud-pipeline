@@ -54,7 +54,7 @@ class ElasticIndexServiceTest {
     private ElasticIndexService elasticIndexService;
 
     @Test
-    void shouldCreateIndexIfNotExist() throws ElasticClientException {
+    void shouldCreateIndexIfNotExist() {
         String expectedIndex = "newIndex";
         String expectedMappingsJson = "mappingsJson";
         String actualIndex = "newIndex";
@@ -90,8 +90,9 @@ class ElasticIndexServiceTest {
     }
 
     @Test
-    void getDeleteRequests() {
-        String actualId = "id";
+    void shouldReturnDeleteRequests() {
+        SearchRequest expectedSearchRequest = new SearchRequest();
+/*        String actualId = "id";
         String actualIndexName = "indexName";
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
@@ -101,33 +102,26 @@ class ElasticIndexServiceTest {
         when(elasticIndexService.getDeleteRequests(expectedId, expectedIndexName)).thenReturn(expectedListOfRequests);
         elasticIndexService.getDeleteRequests(actualId, actualIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);
-    }
-
-    @Test
-    void buildDeleteRequests(){
-        String actualIndexName = "indexName";
-        SearchRequest actualSearchRequest = new SearchRequest();
-        DocWriteRequest docWriteRequest = new UpdateRequest();
-        List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
-        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
-        actualListOfRequests.add(docWriteRequest);
-        when(elasticIndexService.buildDeleteRequests(expectedIndexName, expectedSearchRequest)).thenReturn(expectedListOfRequests);
-        elasticIndexService.buildDeleteRequests(actualIndexName, actualSearchRequest);
+        verify(elasticIndexService).getDeleteRequests(expectedId, expectedIndexName);*/
+        when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName))
+                .thenReturn(expectedSearchRequest);
+        SearchRequest actualSearchRequest = elasticIndexService
+                .buildSearchRequestForConfigEntries("id", "indexName");
+        assertEquals(expectedSearchRequest, actualSearchRequest);
+        List<DocWriteRequest> actualListOfRequests = elasticIndexService
+                .buildDeleteRequests("id", actualSearchRequest);
         assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).buildDeleteRequests(expectedIndexName, expectedSearchRequest);
     }
 
     @Test
     void buildSearchRequestForConfigEntries(){
-        String actualId = "id";
+        /*String actualId = "id";
         String actualIndexName = "indexName";
         SearchRequest actualSearchRequest = new SearchRequest();
         when(elasticIndexService.buildSearchRequestForConfigEntries(expectedId, expectedIndexName)).thenReturn(expectedSearchRequest);
         elasticIndexService.buildSearchRequestForConfigEntries(actualId, actualIndexName);
         assertEquals(expectedSearchRequest, actualSearchRequest);
-        verify(elasticIndexService).buildSearchRequestForConfigEntries(expectedId, expectedIndexName);
+        verify(elasticIndexService).buildSearchRequestForConfigEntries(expectedId, expectedIndexName);*/
     }
 
     @Test
