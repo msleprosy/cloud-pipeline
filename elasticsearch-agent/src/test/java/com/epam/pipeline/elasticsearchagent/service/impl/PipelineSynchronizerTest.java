@@ -31,7 +31,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -52,6 +54,7 @@ import static org.mockito.Mockito.*;
 class PipelineSynchronizerTest{
 
     private PipelineEvent expectedPipelineEvent;
+    private PipelineEvent expectedPipelineCodeEvent;
     private List<PipelineEvent> expectedList;
     private LocalDateTime expectedSyncStart;
     private String expectedPipelineIndex;
@@ -68,6 +71,14 @@ class PipelineSynchronizerTest{
         expectedPipelineEvent.setObjectId(1L);
         expectedPipelineEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
         expectedPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
+
+        expectedPipelineCodeEvent = new PipelineEvent();
+        expectedPipelineCodeEvent.setEventType(EventType.INSERT);
+        expectedPipelineCodeEvent.setObjectType(PipelineEvent.ObjectType.PIPELINE_CODE);
+        expectedPipelineCodeEvent.setObjectId(1L);
+        expectedPipelineCodeEvent.setCreatedDate(LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        expectedPipelineCodeEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
+
         expectedList = new ArrayList<>();
         expectedList.add(expectedPipelineEvent);
         expectedSyncStart = LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0);
@@ -86,36 +97,37 @@ class PipelineSynchronizerTest{
     @Mock
     private PipelineEventDao pipelineEventDao;
 
+    @Mock
     private PipelineSynchronizer pipelineSynchronizer;
 
     @Test
-    void synchronize() throws InterruptedException {
-        /*TimeUnit.SECONDS.sleep(2);
-        LocalDateTime expectedLastSyncTime = LocalDateTime.of(2019, Month.JUNE, 25, 11, 11, 0);
-        doAnswer(invocation -> {
-            Object arg0 = invocation.getArgument(0);
-            Object arg1 = invocation.getArgument(1);
-            assertEquals(expectedSyncStart, arg0);
-            assertEquals(expectedLastSyncTime, arg1);
-            return null;
-        }).when(pipelineSynchronizer).synchronize(any(LocalDateTime.class), any(LocalDateTime.class));
-        pipelineSynchronizer
-                .synchronize(LocalDateTime
-                        .of(2019, Month.JUNE, 26, 11, 11, 0), LocalDateTime
-                        .of(2019, Month.JUNE, 25, 11, 11, 0));
-        verify(pipelineSynchronizer, atLeast(1)).synchronize(expectedSyncStart, expectedLastSyncTime);*/
+    void synchronize() {
         List<PipelineEvent> expectedPipelineCodeEventsList = new ArrayList<>();
-        expectedPipelineCodeEventsList.add(expectedPipelineEvent);
-        PipelineEvent.ObjectType expectedPipelineEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
-        when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineEventObjectType, expectedSyncStart))
+        expectedPipelineCodeEventsList.add(expectedPipelineCodeEvent);
+        List<PipelineEvent> expectedPipelineEventsList = new ArrayList<>();
+        expectedPipelineEventsList.add(expectedPipelineEvent);
+        PipelineEvent.ObjectType expectedPipelineCodeEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
+        when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineCodeEventObjectType, expectedSyncStart))
                 .thenReturn(expectedPipelineCodeEventsList);
-        List<PipelineEvent> actualpipelineCodeEvents = pipelineEventDao
+        List<PipelineEvent> actualPipelineCodeEvents = pipelineEventDao
                 .loadPipelineEventsByObjectType(PipelineEvent
                         .ObjectType.PIPELINE_CODE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
-        List<PipelineEvent> actualpipelinevents = EventProcessorUtils.mergeEvents(
+        List<PipelineEvent> actualPipelineEvents = EventProcessorUtils.mergeEvents(
                 pipelineEventDao
                         .loadPipelineEventsByObjectType(PipelineEvent
                                 .ObjectType.PIPELINE, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0)));
+        doAnswer(invocationOnPipelineSynchronizer -> {
+            Object pipelineEvent = invocationOnPipelineSynchronizer.getArgument(0);
+            Object pipeLineEventList = invocationOnPipelineSynchronizer.getArgument(1);
+            Object syncStart = invocationOnPipelineSynchronizer.getArgument(2);
+            assertEquals(expectedPipelineEvent.getObjectId(), pipelineEvent);
+            assertEquals(expectedList, pipeLineEventList);
+            assertEquals(expectedSyncStart, syncStart);
+            return null;
+        }).when(pipelineSynchronizer).synchronizePipelineEvents(any(Long.class), anyList(), any(LocalDateTime.class));
+        pipelineSynchronizer
+                .synchronizePipelineEvents(expectedPipelineEvent
+                        .getObjectId(), actualPipelineEvents, LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
     }
 
     @Test
