@@ -75,7 +75,6 @@ class ElasticIndexServiceTest {
         String expectedField = "field";
         String expectedValue = "value";
         List<DocWriteRequest> actualListOfRequests;
-        SearchRequest expectedSearchRequest = new SearchRequest();
         SearchResponse expectedSearchResponse = new SearchResponse();
         when(elasticIndexService.buildDeleteRequests(eq(expectedIndexName), any(SearchRequest.class)))
                 .thenReturn(expectedListOfRequests);
@@ -86,9 +85,7 @@ class ElasticIndexServiceTest {
         SearchRequest actualRequest = new SearchRequest(expectedIndexName).source(searchSource);
         actualListOfRequests = elasticIndexService.buildDeleteRequests("indexName", actualRequest);
         SearchResponse actualSearchResponse = elasticsearchServiceClient.search(actualRequest);
-
-        /*actualListOfRequests = elasticIndexService
-                .getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);*/
+        assertEquals(expectedSearchResponse, actualSearchResponse);
         assertEquals(expectedListOfRequests, actualListOfRequests);
     }
 
