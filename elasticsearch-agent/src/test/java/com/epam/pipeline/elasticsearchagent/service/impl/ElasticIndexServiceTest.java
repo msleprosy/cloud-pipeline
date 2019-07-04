@@ -4,7 +4,9 @@ import com.epam.pipeline.elasticsearchagent.exception.ElasticClientException;
 import com.epam.pipeline.elasticsearchagent.service.ElasticsearchServiceClient;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.DocWriteRequest;
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -37,9 +39,9 @@ class ElasticIndexServiceTest {
 
     @BeforeEach
     public void setup() {
-        docWriteRequest = new UpdateRequest();
+        docWriteRequest = new DeleteRequest();
         expectedListOfRequests = new ArrayList<>();
-        //expectedListOfRequests.add(docWriteRequest);
+        expectedListOfRequests.add(docWriteRequest);
         expectedIndexName = "indexName";
         expectedSearchRequest = new SearchRequest();
         expectedId = "id";
@@ -73,14 +75,20 @@ class ElasticIndexServiceTest {
         String expectedField = "field";
         String expectedValue = "value";
         List<DocWriteRequest> actualListOfRequests;
+        SearchRequest searchRequest = new SearchRequest();
+        SearchResponse searchResponse = new SearchResponse();
         when(elasticIndexService.buildDeleteRequests(eq(expectedIndexName), any(SearchRequest.class)))
                 .thenReturn(expectedListOfRequests);
+        when(elasticsearchServiceClient.search(searchRequest))
+                .thenReturn(searchResponse);
         SearchSourceBuilder searchSource = new SearchSourceBuilder()
                 .query(QueryBuilders.termQuery(expectedField, expectedValue));
         SearchRequest actualRequest = new SearchRequest(expectedIndexName).source(searchSource);
-        elasticIndexService.buildDeleteRequests("indexName", actualRequest);
-        actualListOfRequests = elasticIndexService
-                .getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);
+        actualListOfRequests = elasticIndexService.buildDeleteRequests("indexName", actualRequest);
+        SearchResponse search = elasticsearchServiceClient.search(actualRequest);
+
+        /*actualListOfRequests = elasticIndexService
+                .getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);*/
         assertEquals(expectedListOfRequests, actualListOfRequests);
     }
 
