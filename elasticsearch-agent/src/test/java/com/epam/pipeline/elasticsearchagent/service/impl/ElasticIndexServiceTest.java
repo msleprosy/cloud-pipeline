@@ -39,7 +39,7 @@ class ElasticIndexServiceTest {
     public void setup() {
         docWriteRequest = new UpdateRequest();
         expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
+        //expectedListOfRequests.add(docWriteRequest);
         expectedIndexName = "indexName";
         expectedSearchRequest = new SearchRequest();
         expectedId = "id";
@@ -70,27 +70,18 @@ class ElasticIndexServiceTest {
 
     @Test
     void shouldReturnDeleteRequestsByTerm() {
-        SearchRequest expectedRequest = new SearchRequest();
         String expectedField = "field";
         String expectedValue = "value";
-
-        /*String actualField = "field";
-        String actualValue = "value";
-        String actualIndexName = "indexName";*/
-        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
-        actualListOfRequests.add(docWriteRequest);
-
+        List<DocWriteRequest> actualListOfRequests;
         when(elasticIndexService.buildDeleteRequests(eq(expectedIndexName), any(SearchRequest.class)))
                 .thenReturn(expectedListOfRequests);
         SearchSourceBuilder searchSource = new SearchSourceBuilder()
                 .query(QueryBuilders.termQuery(expectedField, expectedValue));
         SearchRequest actualRequest = new SearchRequest(expectedIndexName).source(searchSource);
         elasticIndexService.buildDeleteRequests("indexName", actualRequest);
-        /*when(elasticIndexService.getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName)).thenReturn(expectedListOfRequests);
-        elasticIndexService.getDeleteRequestsByTerm(actualField, actualValue, actualIndexName);
+        actualListOfRequests = elasticIndexService
+                .getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);
         assertEquals(expectedListOfRequests, actualListOfRequests);
-        verify(elasticIndexService).getDeleteRequestsByTerm(expectedField, expectedValue, expectedIndexName);*/
-
     }
 
     @Test
