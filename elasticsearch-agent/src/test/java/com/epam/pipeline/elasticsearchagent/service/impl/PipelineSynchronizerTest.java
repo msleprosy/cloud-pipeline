@@ -378,7 +378,7 @@ class PipelineSynchronizerTest{
     }
 
     @Test
-    void processPipelineEvent() throws EntityNotFoundException {
+    void shouldProcessPipelineEvent() throws EntityNotFoundException {
         List<PipelineEvent> actualPipelineEventList = EventProcessorUtils.mergeEvents(
                 pipelineEventDao.loadPipelineEventsByObjectType(PipelineEvent
                         .ObjectType.PIPELINE, actualSyncStart));
