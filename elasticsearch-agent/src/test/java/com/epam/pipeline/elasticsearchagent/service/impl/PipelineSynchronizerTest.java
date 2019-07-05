@@ -37,10 +37,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -67,6 +64,8 @@ class PipelineSynchronizerTest{
     private DocWriteRequest docWriteRequest;
     private List<DocWriteRequest> expectedListOfPipelineRequests;
     private List<DocWriteRequest> expectedListOfCodeRequests;
+    private List<DocWriteRequest> expectedDocumentRequests;
+    private List<PipelineEvent.ObjectType> expectedObjectTypes;
     private @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
 
     @BeforeEach
@@ -99,6 +98,9 @@ class PipelineSynchronizerTest{
         expectedListOfPipelineRequests.add(docWriteRequest);
         expectedListOfCodeRequests = new ArrayList<>();
         expectedListOfCodeRequests.add(docWriteRequest);
+        expectedDocumentRequests = new ArrayList<>();
+        expectedDocumentRequests.add(docWriteRequest);
+        expectedObjectTypes = Arrays.asList(PipelineEvent.ObjectType.PIPELINE, PipelineEvent.ObjectType.PIPELINE_CODE);
         expectedPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
                 .pipelineId(1L)
                 .pipelineRequests(expectedListOfPipelineRequests)
@@ -114,6 +116,9 @@ class PipelineSynchronizerTest{
 
     @Mock
     private ElasticIndexService elasticIndexService;
+
+    @Mock
+    private BulkRequestSender requestSender;
 
     @Test
     void synchronize() {
@@ -179,6 +184,20 @@ class PipelineSynchronizerTest{
             return null;
         }).when(elasticIndexService).createIndexIfNotExist(expectedPipelineIndex, pipelineIndexMappingFile);
         elasticIndexService.createIndexIfNotExist("pipelineIndex", pipelineIndexMappingFile);
+
+        doAnswer(invocationOnRequestSender -> {
+            Object pipelineIndex = invocationOnRequestSender.getArgument(0);
+            Object pipelineIndexMappingFile = invocationOnRequestSender.getArgument(1);
+            assertEquals(expectedPipelineIndex, pipelineIndex);
+            assertEquals(pipelineIndexMappingFile, pipelineIndexMappingFile);
+            return null;
+        }).when(requestSender)
+                .indexDocuments(expectedPipelineIndex, expectedObjectTypes, expectedPipelineDocRequests
+                        .getPipelineRequests(), LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        requestSender
+                .indexDocuments("pipelineIndex", Arrays
+                        .asList(PipelineEvent.ObjectType.PIPELINE, PipelineEvent.ObjectType.PIPELINE_CODE), actualPipelineRequests
+                        .getPipelineRequests(), LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
     }
 
     @Test
