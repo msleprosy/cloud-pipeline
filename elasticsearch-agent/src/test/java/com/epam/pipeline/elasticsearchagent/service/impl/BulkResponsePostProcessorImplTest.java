@@ -60,7 +60,8 @@ class BulkResponsePostProcessorImplTest {
             assertEquals(anyLong(), arg2);
             assertEquals(any(LocalDateTime.class), arg3);
             return null;
-        }).when(bulkResponsePostProcessor).postProcessResponse(anyList(), anyList(), anyLong(), any(LocalDateTime.class));
+        }).when(bulkResponsePostProcessor)
+        .postProcessResponse(anyList(), anyList(), anyLong(), any(LocalDateTime.class));
         bulkResponsePostProcessor
                 .postProcessResponse(anyList(), anyList(), anyLong(), any(LocalDateTime.class));
         verify(bulkResponsePostProcessor, atLeastOnce())

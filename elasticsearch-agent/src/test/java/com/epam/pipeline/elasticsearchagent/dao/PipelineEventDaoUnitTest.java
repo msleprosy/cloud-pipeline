@@ -1,3 +1,4 @@
+/*
 package com.epam.pipeline.elasticsearchagent.dao;
 
 import com.epam.pipeline.elasticsearchagent.model.EventType;
@@ -51,12 +52,20 @@ public class PipelineEventDaoUnitTest {
         actualPipelineEvent.setData("{\"tag\": {\"type\": \"string\", \"value\": \"admin\"}}");
         List<PipelineEvent> actualList = new ArrayList<>();
         actualList.add(actualPipelineEvent);
-        when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineEvent.getObjectType(), expectedPipelineEvent.getCreatedDate()))
+        when(pipelineEventDao
+        .loadPipelineEventsByObjectType(expectedPipelineEvent
+        .getObjectType(), expectedPipelineEvent
+        .getCreatedDate()))
                 .thenReturn(expectedList);
-        pipelineEventDao.loadPipelineEventsByObjectType(actualPipelineEvent.getObjectType(), actualPipelineEvent.getCreatedDate());
+        pipelineEventDao
+        .loadPipelineEventsByObjectType(actualPipelineEvent
+        .getObjectType(), actualPipelineEvent
+        .getCreatedDate());
         assertEquals(expectedList, actualList);
         verify(pipelineEventDao, atLeastOnce())
-                .loadPipelineEventsByObjectType(expectedPipelineEvent.getObjectType(), expectedPipelineEvent.getCreatedDate());
+                .loadPipelineEventsByObjectType(expectedPipelineEvent
+                .getObjectType(), expectedPipelineEvent
+                .getCreatedDate());
     }
 
     @Test
@@ -104,3 +113,4 @@ public class PipelineEventDaoUnitTest {
         verify(pipelineEventDao, atLeastOnce()).setDeleteEventQuery(expectedDeleteEventQuery);
     }
 }
+*/

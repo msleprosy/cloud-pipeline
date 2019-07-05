@@ -19,17 +19,6 @@
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\dao\PipelineEventDaoTest.java">
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\dao\PipelineEventDaoUnitTest.java">
-<error line="37" column="63" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="37" column="81" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="37" column="85" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="37" column="89" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="48" column="61" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="48" column="79" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="48" column="83" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="48" column="87" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="54" severity="warning" message="Line is longer than 120 characters (found 140)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="56" severity="warning" message="Line is longer than 120 characters (found 131)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="59" severity="warning" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\git\GitHookServiceImplTest.java">
 </file>
@@ -38,149 +27,36 @@
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\git\GitTagEventProcessorTest.java">
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\BulkResponsePostProcessorImplTest.java">
-<error line="63" severity="warning" message="Line is longer than 120 characters (found 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\CloudPipelineAPIClientTest.java">
-<error line="4" column="8" severity="warning" message="Unused import - com.epam.pipeline.elasticsearchagent.service.impl.converter.storage.DataStorageLoader." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="21" column="8" severity="warning" message="Unused import - org.junit.runner.RunWith." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="23" column="8" severity="warning" message="Unused import - org.mockito.MockitoAnnotations." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="24" column="8" severity="warning" message="Unused import - org.mockito.junit.MockitoJUnitRunner." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="52" severity="warning" message="&apos;member def modifier&apos; have incorrect indentation level 8, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="104" severity="warning" message="Line is longer than 120 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="264" severity="warning" message="Line is longer than 120 characters (found 123)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="309" severity="warning" message="Line is longer than 120 characters (found 132)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticIndexServiceTest.java">
-<error line="53" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 9, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="54" severity="warning" message="&apos;block&apos; child have incorrect indentation level 12, expected level should be 13." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="55" severity="warning" message="&apos;block&apos; child have incorrect indentation level 12, expected level should be 13." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="56" severity="warning" message="&apos;block&apos; child have incorrect indentation level 12, expected level should be 13." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="57" severity="warning" message="&apos;block&apos; child have incorrect indentation level 12, expected level should be 13." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="58" severity="warning" message="&apos;block&apos; child have incorrect indentation level 12, expected level should be 13." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="59" severity="warning" message="&apos;block rcurly&apos; have incorrect indentation level 8, expected level should be 9." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="61" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 12, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="73" severity="warning" message="Line is longer than 120 characters (found 142)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="103" severity="warning" message="Line is longer than 120 characters (found 131)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="114" severity="warning" message="Line is longer than 120 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticsearchClientTest.java">
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticsearchServiceClientImplTest.java">
-<error line="3" column="8" severity="warning" message="Unused import - org.elasticsearch.action.DocWriteRequest." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="4" column="8" severity="warning" message="Unused import - org.elasticsearch.action.bulk.BulkRequest." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="5" column="8" severity="warning" message="Unused import - org.elasticsearch.action.bulk.BulkResponse." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="8" column="8" severity="warning" message="Unused import - org.elasticsearch.action.update.UpdateRequest." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="9" column="8" severity="warning" message="Unused import - org.elasticsearch.client.RequestOptions." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="17" column="8" severity="warning" message="Unused import - org.springframework.beans.factory.annotation.Autowired." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="19" column="8" severity="warning" message="Unused import - java.io.IOException." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="20" column="8" severity="warning" message="Unused import - java.util.ArrayList." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="21" column="8" severity="warning" message="Unused import - java.util.List." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="36" column="5" severity="warning" message="Redundant &apos;public&apos; modifier." source="com.puppycrawl.tools.checkstyle.checks.modifier.RedundantModifierCheck"/>
-<error line="75" severity="warning" message="Line is longer than 120 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="131" column="47" severity="warning" message="Should use uppercase &apos;L&apos;." source="com.puppycrawl.tools.checkstyle.checks.UpperEllCheck"/>
+<error line="74" severity="warning" message="Line is longer than 120 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\EntitySynchronizerTest.java">
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\PipelineCodeHandlerTest.java">
-<error line="157" severity="warning" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="163" severity="warning" message="Line is longer than 120 characters (found 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="165" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="168" severity="warning" message="Line is longer than 120 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="171" severity="warning" message="&apos;method def modifier&apos; have incorrect indentation level 3, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="173" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="174" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="175" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="176" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="177" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="178" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="179" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="180" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="180" severity="warning" message="Line is longer than 120 characters (found 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="181" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="182" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="182" severity="warning" message="Line is longer than 120 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="183" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="184" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="185" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="186" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="187" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="188" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="189" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="190" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="190" severity="warning" message="Line is longer than 120 characters (found 133)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="191" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="192" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="193" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="194" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="195" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="196" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="197" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="198" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="200" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="201" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="203" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="204" severity="warning" message="Line is longer than 120 characters (found 147)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="204" column="117" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="205" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="206" severity="warning" message="&apos;method def&apos; child have incorrect indentation level 7, expected level should be 8." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="207" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="208" severity="warning" message="&apos;method def rcurly&apos; have incorrect indentation level 3, expected level should be 4." source="com.puppycrawl.tools.checkstyle.checks.indentation.IndentationCheck"/>
-<error line="219" severity="warning" message="Line is longer than 120 characters (found 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="221" severity="warning" message="Line is longer than 120 characters (found 123)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="158" severity="warning" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="164" severity="warning" message="Line is longer than 120 characters (found 150)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="166" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="169" severity="warning" message="Line is longer than 120 characters (found 134)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="182" severity="warning" message="Line is longer than 120 characters (found 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="184" severity="warning" message="Line is longer than 120 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="192" severity="warning" message="Line is longer than 120 characters (found 133)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="203" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="206" severity="warning" message="Line is longer than 120 characters (found 147)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="209" severity="warning" message="Line is longer than 120 characters (found 145)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="221" severity="warning" message="Line is longer than 120 characters (found 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="223" severity="warning" message="Line is longer than 120 characters (found 123)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\PipelineSynchronizerTest.java">
-<error line="28" column="8" severity="warning" message="Unused import - org.junit.Before." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="33" column="8" severity="warning" message="Unused import - org.mockito.MockitoAnnotations." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="69" column="63" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="69" column="81" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="69" column="85" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="69" column="89" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="73" column="46" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="73" column="64" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="73" column="68" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="73" column="72" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="92" column="63" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="92" column="81" severity="warning" message="&apos;25&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="92" column="85" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="92" column="89" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="102" column="29" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="102" column="47" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="102" column="51" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="102" column="55" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="103" column="29" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="103" column="47" severity="warning" message="&apos;25&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="103" column="51" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="103" column="55" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="111" column="61" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="111" column="79" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="111" column="83" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="111" column="87" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="117" column="58" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="117" column="76" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="117" column="80" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="117" column="84" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="139" column="61" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="139" column="79" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="139" column="83" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="139" column="87" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="185" severity="warning" message="Line is longer than 120 characters (found 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="187" severity="warning" message="Line is longer than 120 characters (found 154)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="189" severity="warning" message="Line is longer than 120 characters (found 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="198" column="61" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="198" column="79" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="198" column="83" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="198" column="87" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="205" severity="warning" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="211" severity="warning" message="Line is longer than 120 characters (found 144)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="213" severity="warning" message="Line is longer than 120 characters (found 131)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="216" severity="warning" message="Line is longer than 120 characters (found 127)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="225" column="61" severity="warning" message="&apos;2019&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="225" column="79" severity="warning" message="&apos;26&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="225" column="83" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="225" column="87" severity="warning" message="&apos;11&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="257" severity="warning" message="Line is longer than 120 characters (found 153)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="259" severity="warning" message="Line is longer than 120 characters (found 142)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="262" severity="warning" message="Line is longer than 120 characters (found 136)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="402" severity="warning" message="Line is longer than 120 characters (found 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="405" severity="warning" message="Line is longer than 120 characters (found 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="408" severity="warning" message="Line is longer than 120 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\converter\configuration\ConfigurationMapperTest.java">
 </file>

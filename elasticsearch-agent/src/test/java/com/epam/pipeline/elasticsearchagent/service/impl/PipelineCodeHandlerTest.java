@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+
+
 package com.epam.pipeline.elasticsearchagent.service.impl;
 
 import com.epam.pipeline.elasticsearchagent.exception.EntityNotFoundException;
@@ -143,7 +144,7 @@ class PipelineCodeHandlerTest {
         expectedPipeline = new Pipeline();
     }
 
-   /* @Test
+ @Test
     void createRequestsForVersionEvents(){
         String expectedPath = "expectedPath";
         List<String> expectedPathList = new ArrayList<>();
@@ -166,7 +167,8 @@ class PipelineCodeHandlerTest {
         assertEquals(expectedListOfRequests, expectedListOfRequests);
         verify(pipelineCodeHandler, atLeastOnce())
                 .createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
-    }*/
+    }
+
 
    @Test
    void getDocRequestsByType(){
@@ -207,7 +209,7 @@ class PipelineCodeHandlerTest {
                .getDocRequestsByType(INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER, expectedGitEventType, expectedGitEventDescriptionList);
    }
 
-   /*@Test
+@Test
    void mapPipelineEventToGitEvent(){
        GitEventType expectedGitEventType = GitEventType.push;
        GitEventData expectedGitEventData = new GitEventData();
@@ -223,7 +225,8 @@ class PipelineCodeHandlerTest {
        assertEquals(expectedGitEventDescription, expectedGitEventDescription);
        verify(pipelineCodeHandler).mapPipelineEventToGitEvent(expectedPipelineEvent);
    }
-*/
+
+
     @Test
     void shouldProcessGitPushEventTest() throws EntityNotFoundException, IOException {
         when(pipelineLoader.loadEntity(anyLong())).thenReturn(Optional.ofNullable(container));
@@ -275,3 +278,4 @@ class PipelineCodeHandlerTest {
     }
 }
 
+*/

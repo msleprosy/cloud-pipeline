@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="5.6.1" timestamp="2019-07-03T21:11:40.549">
-<file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticIndexServiceTest.java">
-<violation beginline="39" endline="39" begincolumn="29" endcolumn="39" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="ElasticIndexServiceTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
-The String literal &quot;indexName&quot; appears 5 times in this file; the first occurrence is on line 39
-</violation>
-</file>
+<pmd version="5.6.1" timestamp="2019-07-05T06:13:51.400">
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\ElasticsearchServiceClientImplTest.java">
 <violation beginline="40" endline="40" begincolumn="29" endcolumn="39" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="ElasticsearchServiceClientImplTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
 The String literal &quot;indexName&quot; appears 7 times in this file; the first occurrence is on line 40
 </violation>
 </file>
 <file name="C:\Users\veronika\IdeaProjects\cloud-pipeline\elasticsearch-agent\src\test\java\com\epam\pipeline\elasticsearchagent\service\impl\PipelineSynchronizerTest.java">
-<violation beginline="68" endline="68" begincolumn="39" endcolumn="95" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="PipelineSynchronizerTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
-The String literal &quot;{\&quot;tag\&quot;: {\&quot;type\&quot;: \&quot;string\&quot;, \&quot;value\&quot;: \&quot;admin\&quot;}}&quot; appears 5 times in this file; the first occurrence is on line 68
+<violation beginline="100" endline="100" begincolumn="33" endcolumn="47" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="PipelineSynchronizerTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;pipelineIndex&quot; appears 5 times in this file; the first occurrence is on line 100
 </violation>
-<violation beginline="72" endline="72" begincolumn="33" endcolumn="47" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="PipelineSynchronizerTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
-The String literal &quot;pipelineIndex&quot; appears 4 times in this file; the first occurrence is on line 72
-</violation>
-<violation beginline="73" endline="73" begincolumn="29" endcolumn="39" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="PipelineSynchronizerTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
-The String literal &quot;codeIndex&quot; appears 4 times in this file; the first occurrence is on line 73
+<violation beginline="101" endline="101" begincolumn="29" endcolumn="39" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="com.epam.pipeline.elasticsearchagent.service.impl" class="PipelineSynchronizerTest" method="setup" externalInfoUrl="https://pmd.github.io/pmd-5.6.1/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;codeIndex&quot; appears 4 times in this file; the first occurrence is on line 101
 </violation>
 </file>
 </pmd>
