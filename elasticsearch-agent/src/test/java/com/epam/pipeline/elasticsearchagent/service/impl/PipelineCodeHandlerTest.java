@@ -155,18 +155,22 @@ class PipelineCodeHandlerTest {
                 .version(VERSION)
                 .build();
         Pipeline expectedPipeline = new Pipeline();
-        GitEventDescription expectedGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+        GitEventDescription expectedGitEventDescription = new GitEventDescription
+        * (expectedPipelineEvent, expectedGitEventData);
         List<GitEventDescription> expectedGitEventDescriptionList = new ArrayList<>();
         expectedGitEventDescriptionList.add(expectedGitEventDescription);
         DocWriteRequest docWriteRequest = new UpdateRequest();
         List<DocWriteRequest> expectedListOfRequests = new ArrayList<>();
         expectedListOfRequests.add(docWriteRequest);
-        when(pipelineCodeHandler.createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER))
+        when(pipelineCodeHandler.createRequestsForVersionEvents
+        * (expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER))
                 .thenReturn(expectedListOfRequests);
-        pipelineCodeHandler.createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
+        pipelineCodeHandler.createRequestsForVersionEvents
+        * (expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
         assertEquals(expectedListOfRequests, expectedListOfRequests);
         verify(pipelineCodeHandler, atLeastOnce())
-                .createRequestsForVersionEvents(expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
+                .createRequestsForVersionEvents
+                * (expectedGitEventDescriptionList, INDEX_NAME, expectedPipeline, PERMISSIONS_CONTAINER);
     }
 
 
@@ -179,9 +183,11 @@ class PipelineCodeHandlerTest {
        expectedGitEventData.setGitEventType(expectedGitEventType);
        expectedGitEventData.setPaths(paths);
        expectedGitEventData.setVersion(TEST_VERSION);
-       GitEventDescription expectedGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+       GitEventDescription expectedGitEventDescription = new GitEventDescription
+       * (expectedPipelineEvent, expectedGitEventData);
        List<GitEventDescription> expectedGitEventDescriptionList = new ArrayList<>();
-       GitEventDescription actualGitEventDescription = new GitEventDescription(expectedPipelineEvent, expectedGitEventData);
+       GitEventDescription actualGitEventDescription = new GitEventDescription
+       * (expectedPipelineEvent, expectedGitEventData);
        expectedGitEventDescriptionList.add(expectedGitEventDescription);
        List<GitEventDescription> actualGitEventDescriptionList = new ArrayList<>();
        actualGitEventDescriptionList.add(actualGitEventDescription);
@@ -189,7 +195,8 @@ class PipelineCodeHandlerTest {
        List<DocWriteRequest> actualListOfRequests = new ArrayList<>();
        actualListOfRequests.add(docWriteRequest);
        String actualIndexName = "pipeline-code";
-       PermissionsContainer actualPermissionContainer = buildPermissions(ALLOWED_USERS, DENIED_USERS, ALLOWED_GROUPS, DENIED_GROUPS);
+       PermissionsContainer actualPermissionContainer = buildPermissions
+       * (ALLOWED_USERS, DENIED_USERS, ALLOWED_GROUPS, DENIED_GROUPS);
        Pipeline actualPipeline = new Pipeline();
        actualPipeline.setId(1L);
        actualPipeline.setName(TEST_NAME);
