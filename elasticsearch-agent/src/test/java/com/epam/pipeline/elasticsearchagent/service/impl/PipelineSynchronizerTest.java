@@ -22,6 +22,7 @@ import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
+import com.epam.pipeline.elasticsearchagent.service.ElasticsearchServiceClient;
 import com.epam.pipeline.elasticsearchagent.service.impl.converter.pipeline.PipelineLoader;
 import com.epam.pipeline.elasticsearchagent.utils.EventProcessorUtils;
 import com.epam.pipeline.entity.pipeline.Pipeline;
@@ -176,6 +177,9 @@ class PipelineSynchronizerTest{
 
     @Mock
     private PipelineLoader pipelineLoader;
+
+    @Mock
+    private ElasticsearchServiceClient elasticsearchClient;
 
     @Test
     void shouldSynchronize() {
@@ -421,27 +425,14 @@ class PipelineSynchronizerTest{
     }
 
     @Test
-    void cleanCodeIndexAndCreateDeleteRequest(){
-        /*List<DocWriteRequest> pipelineRequests = new ArrayList<>();
-        pipelineRequests.add(docWriteRequest);
-        List<DocWriteRequest> codeRequests = new ArrayList<>();
-        codeRequests.add(docWriteRequest);
-        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
-        PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = null;
-        PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = new PipelineSynchronizer
-                .PipelineDocRequests(pipelineRequests, codeRequests, 1L);
-        String actualPipelineIndex = actualPipelineIndex;
-        String actualCodeIndex = actualCodeIndex;
-        when(pipelineSynchronizer
-        .cleanCodeIndexAndCreateDeleteRequest
-        (1L, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder))
-                .thenReturn(expectedPipelineDocRequests);
-        pipelineSynchronizer
-        .cleanCodeIndexAndCreateDeleteRequest
-        (1L, actualPipelineIndex, actualCodeIndex, actualPipelineDocRequestsBuilder);
-        assertEquals(expectedPipelineDocRequests, actualPipelineDocRequests);
-        verify(pipelineSynchronizer, atLeastOnce())
-                .cleanCodeIndexAndCreateDeleteRequest
-                (1L, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder);*/
+    void shouldCleanCodeIndexAndCreateDeleteRequest(){
+        doAnswer(invocationOnElasticsearchClient -> {
+            Object pipelineIndex = invocationOnElasticsearchClient.getArgument(0);
+            assertEquals(expectedPipelineIndex, pipelineIndex);
+            return null;
+        }).when(elasticsearchClient).deleteIndex(expectedPipelineIndex);
+        elasticsearchClient.deleteIndex(actualPipelineIndex);
+        verify(elasticsearchClient, atLeast(1))
+                .deleteIndex(expectedPipelineIndex);
     }
 }
