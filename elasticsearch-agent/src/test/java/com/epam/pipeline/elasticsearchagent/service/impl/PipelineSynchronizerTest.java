@@ -66,6 +66,7 @@ class PipelineSynchronizerTest{
     private List<DocWriteRequest> expectedListOfCodeRequests;
     private List<DocWriteRequest> expectedDocumentRequests;
     private List<PipelineEvent.ObjectType> expectedObjectTypes;
+    private PipelineEvent.ObjectType expectedObjectType;
     private @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
 
     @BeforeEach
@@ -101,6 +102,7 @@ class PipelineSynchronizerTest{
         expectedDocumentRequests = new ArrayList<>();
         expectedDocumentRequests.add(docWriteRequest);
         expectedObjectTypes = Arrays.asList(PipelineEvent.ObjectType.PIPELINE, PipelineEvent.ObjectType.PIPELINE_CODE);
+        expectedObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
         expectedPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
                 .pipelineId(1L)
                 .pipelineRequests(expectedListOfPipelineRequests)
@@ -121,7 +123,7 @@ class PipelineSynchronizerTest{
     private BulkRequestSender requestSender;
 
     @Test
-    void synchronize() {
+    void shouldSynchronize() {
         PipelineEvent.ObjectType expectedPipelineCodeEventObjectType = PipelineEvent.ObjectType.PIPELINE_CODE;
         PipelineEvent.ObjectType expectedPipelineEventObjectType = PipelineEvent.ObjectType.PIPELINE;
         when(pipelineEventDao.loadPipelineEventsByObjectType(expectedPipelineCodeEventObjectType, expectedSyncStart))
@@ -160,7 +162,7 @@ class PipelineSynchronizerTest{
     }
 
     @Test
-    void synchronizePipelineEvents() throws ElasticClientException {
+    void shouldSynchronizePipelineEvents() throws ElasticClientException {
         when(pipelineEventDao.loadPipelineEventsByObjectType(PipelineEvent.ObjectType.PIPELINE, expectedSyncStart))
                 .thenReturn(expectedPipelineEventList);
         List<PipelineEvent> actualPipelineEventList = EventProcessorUtils.mergeEvents(
@@ -172,32 +174,60 @@ class PipelineSynchronizerTest{
                 .thenReturn(expectedPipelineDocRequests);
         PipelineSynchronizer.PipelineDocRequests actualPipelineRequests = pipelineSynchronizer
                 .buildDocRequests(1L, actualPipelineEventList, "pipelineIndex", "codeIndex");
-        PipelineSynchronizer.PipelineDocRequests pipelineRequests = new PipelineSynchronizer
+        PipelineSynchronizer.PipelineDocRequests expectedPipelineRequests = new PipelineSynchronizer
                 .PipelineDocRequests(expectedListOfPipelineRequests, expectedListOfCodeRequests, 1L);
-        assertEquals(pipelineRequests, actualPipelineRequests);
+        assertEquals(expectedPipelineRequests, actualPipelineRequests);
 
         doAnswer(invocationOnElasticIndexService -> {
             Object pipelineIndex = invocationOnElasticIndexService.getArgument(0);
-            Object pipelineIndexMappingFile = invocationOnElasticIndexService.getArgument(1);
+            Object pipelineIndexMappingFileArg = invocationOnElasticIndexService.getArgument(1);
             assertEquals(expectedPipelineIndex, pipelineIndex);
-            assertEquals(pipelineIndexMappingFile, pipelineIndexMappingFile);
+            assertEquals(pipelineIndexMappingFile, pipelineIndexMappingFileArg);
             return null;
         }).when(elasticIndexService).createIndexIfNotExist(expectedPipelineIndex, pipelineIndexMappingFile);
         elasticIndexService.createIndexIfNotExist("pipelineIndex", pipelineIndexMappingFile);
+        verify(elasticIndexService, atLeast(1)).createIndexIfNotExist(expectedPipelineIndex, pipelineIndexMappingFile);
 
-        doAnswer(invocationOnRequestSender -> {
-            Object pipelineIndex = invocationOnRequestSender.getArgument(0);
-            Object pipelineIndexMappingFile = invocationOnRequestSender.getArgument(1);
+        doAnswer(invocationOnRequestSenderWithListOfObjectTypes -> {
+            Object pipelineIndex = invocationOnRequestSenderWithListOfObjectTypes.getArgument(0);
+            Object objectTypes = invocationOnRequestSenderWithListOfObjectTypes.getArgument(1);
+            Object pipeLineDocRequests = invocationOnRequestSenderWithListOfObjectTypes.getArgument(2);
+            Object syncStart = invocationOnRequestSenderWithListOfObjectTypes.getArgument(3);
             assertEquals(expectedPipelineIndex, pipelineIndex);
-            assertEquals(pipelineIndexMappingFile, pipelineIndexMappingFile);
+            assertEquals(expectedObjectTypes, objectTypes);
+            assertEquals(expectedPipelineDocRequests.getPipelineRequests(), pipeLineDocRequests);
+            assertEquals(expectedSyncStart, syncStart);
             return null;
         }).when(requestSender)
                 .indexDocuments(expectedPipelineIndex, expectedObjectTypes, expectedPipelineDocRequests
-                        .getPipelineRequests(), LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+                        .getPipelineRequests(), expectedSyncStart);
         requestSender
                 .indexDocuments("pipelineIndex", Arrays
                         .asList(PipelineEvent.ObjectType.PIPELINE, PipelineEvent.ObjectType.PIPELINE_CODE), actualPipelineRequests
                         .getPipelineRequests(), LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        verify(requestSender, atLeast(1))
+                .indexDocuments(expectedPipelineIndex, expectedObjectTypes, expectedPipelineDocRequests
+                .getPipelineRequests(), expectedSyncStart);
+
+        doAnswer(invocationOnRequestSenderWithObjectType -> {
+            Object pipelineIndex = invocationOnRequestSenderWithObjectType.getArgument(0);
+            Object objectType = invocationOnRequestSenderWithObjectType.getArgument(1);
+            Object pipeLineDocRequests = invocationOnRequestSenderWithObjectType.getArgument(2);
+            Object syncStart = invocationOnRequestSenderWithObjectType.getArgument(3);
+            assertEquals(expectedPipelineIndex, pipelineIndex);
+            assertEquals(expectedObjectType, objectType);
+            assertEquals(expectedPipelineDocRequests.getPipelineRequests(), pipeLineDocRequests);
+            assertEquals(expectedSyncStart, syncStart);
+            return null;
+        }).when(requestSender)
+                .indexDocuments(expectedPipelineIndex, expectedObjectType, expectedPipelineDocRequests
+                        .getPipelineRequests(), expectedSyncStart);
+        requestSender
+                .indexDocuments("pipelineIndex", PipelineEvent.ObjectType.PIPELINE_CODE, actualPipelineRequests
+                        .getPipelineRequests(), LocalDateTime.of(2019, Month.JUNE, 26, 11, 11, 0));
+        verify(requestSender, atLeast(1))
+                .indexDocuments(expectedPipelineIndex, expectedObjectType, expectedPipelineDocRequests
+                        .getPipelineRequests(), expectedSyncStart);
     }
 
     @Test
