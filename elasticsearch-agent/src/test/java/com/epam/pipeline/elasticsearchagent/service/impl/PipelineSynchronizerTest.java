@@ -22,6 +22,7 @@ import com.epam.pipeline.elasticsearchagent.model.EntityContainer;
 import com.epam.pipeline.elasticsearchagent.model.EventType;
 import com.epam.pipeline.elasticsearchagent.model.PipelineDoc;
 import com.epam.pipeline.elasticsearchagent.model.PipelineEvent;
+import com.epam.pipeline.elasticsearchagent.service.impl.converter.pipeline.PipelineLoader;
 import com.epam.pipeline.elasticsearchagent.utils.EventProcessorUtils;
 import com.epam.pipeline.entity.pipeline.Pipeline;
 import com.epam.pipeline.entity.pipeline.Revision;
@@ -68,6 +69,13 @@ class PipelineSynchronizerTest{
     private List<PipelineEvent.ObjectType> expectedObjectTypes;
     private PipelineEvent.ObjectType expectedObjectType;
     private @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
+    private List<Revision> expectedListOfRevisions;
+    private Revision expectedRevision;
+    private Pipeline expectedPipeline;
+    private EntityContainer expectedEntityContainer;
+    private String codeIndex;
+    private List<String> expectedListOfPipelineFileIndexPaths;
+    private @Value("${sync.pipeline-code.index.paths}") String pipelineFileIndexPaths;
 
     @BeforeEach
     public void setup() {
@@ -108,6 +116,26 @@ class PipelineSynchronizerTest{
                 .pipelineRequests(expectedListOfPipelineRequests)
                 .codeRequests(expectedListOfCodeRequests)
                 .build();
+
+        expectedRevision = new Revision();
+        expectedListOfRevisions = new ArrayList<>();
+        expectedListOfRevisions.add(expectedRevision);
+
+        expectedPipeline = new Pipeline();
+        expectedPipeline.setId(1L);
+
+        PipelineDoc pipelineDoc = PipelineDoc.builder()
+                .pipeline(expectedPipeline)
+                .revisions(Collections.singletonList(expectedRevision)).build();
+        expectedEntityContainer = EntityContainer.<PipelineDoc>builder()
+                .entity(pipelineDoc)
+                .owner(USER)
+                .metadata(METADATA)
+                .permissions(PERMISSIONS_CONTAINER)
+                .build();
+        codeIndex = "codeIndex";
+        expectedListOfPipelineFileIndexPaths = new ArrayList<>();
+        expectedListOfPipelineFileIndexPaths.add(TEST_PATH);
     }
 
     @Mock
@@ -121,6 +149,15 @@ class PipelineSynchronizerTest{
 
     @Mock
     private BulkRequestSender requestSender;
+
+    @Mock
+    private CloudPipelineAPIClient cloudPipelineAPIClient;
+
+    @Mock
+    private PipelineCodeHandler pipelineCodeHandler;
+
+    @Mock
+    private PipelineLoader pipelineLoader;
 
     @Test
     void shouldSynchronize() {
@@ -231,8 +268,26 @@ class PipelineSynchronizerTest{
     }
 
     @Test
-    void createIndexDocuments(){
-        String actualPipelineIndex = "pipelineIndex";
+    void createIndexDocuments() throws EntityNotFoundException {
+        Optional<EntityContainer<PipelineDoc>> actualPipelineEntity = pipelineLoader.loadEntity(1L);
+        if(actualPipelineEntity.isPresent()) {
+            Pipeline actualPipeline = actualPipelineEntity.get().getEntity().getPipeline();
+            List<String> actualListOfPipelineFileIndexPaths = EventProcessorUtils.splitOnPaths(pipelineFileIndexPaths);
+            when(cloudPipelineAPIClient.loadPipelineVersions(expectedPipeline.getId()))
+                    .thenReturn(expectedListOfRevisions);
+            List<Revision> actualListOfRevisions = cloudPipelineAPIClient.loadPipelineVersions(1L);
+            assertEquals(expectedListOfRevisions, actualListOfRevisions);
+
+            when((pipelineCodeHandler
+                    .createPipelineCodeDocuments(expectedPipeline, expectedEntityContainer
+                            .getPermissions(), expectedRevision.getName(), codeIndex, expectedListOfPipelineFileIndexPaths)))
+                    .thenReturn(expectedDocumentRequests);
+            pipelineCodeHandler
+                    .createPipelineCodeDocuments(actualPipeline, actualPipelineEntity
+                            .get()
+                            .getPermissions(), actualListOfRevisions.get(0).getName(), "codeIndex", actualListOfPipelineFileIndexPaths);
+        }
+        /*String actualPipelineIndex = "pipelineIndex";
         String actualCodeIndex = "codeIndex";
         PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder expectedPipelineDocRequestsBuilder =  null;
         PipelineSynchronizer.PipelineDocRequests.PipelineDocRequestsBuilder actualPipelineDocRequestsBuilder = null;
@@ -288,7 +343,8 @@ class PipelineSynchronizerTest{
         pipelineSynchronizer
                 .createIndexDocuments(actualPipelineEvent, actualPipelineIndex, actualCodeIndex, actualPipelineDocRequestsBuilder, actualEntityContainer);
         verify(pipelineSynchronizer, atLeast(1))
-                .createIndexDocuments(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder, expectedEntityContainer);
+                .createIndexDocuments(expectedPipelineEvent, expectedPipelineIndex, expectedCodeIndex, expectedPipelineDocRequestsBuilder, expectedEntityContainer);*/
+
     }
 
     @Test
