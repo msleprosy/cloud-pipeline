@@ -65,9 +65,9 @@ class PipelineSynchronizerTest{
     private String expectedCodeIndex;
     private PipelineSynchronizer.PipelineDocRequests expectedPipelineDocRequests;
     private DocWriteRequest docWriteRequest;
-    List<DocWriteRequest> expectedListOfRequests;
-
-    @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
+    private List<DocWriteRequest> expectedListOfPipelineRequests;
+    private List<DocWriteRequest> expectedListOfCodeRequests;
+    private @Value("${sync.pipeline.index.mapping}") String pipelineIndexMappingFile;
 
     @BeforeEach
     public void setup() {
@@ -95,12 +95,14 @@ class PipelineSynchronizerTest{
         expectedCodeIndex = "codeIndex";
 
         docWriteRequest = new UpdateRequest();
-        expectedListOfRequests = new ArrayList<>();
-        expectedListOfRequests.add(docWriteRequest);
+        expectedListOfPipelineRequests = new ArrayList<>();
+        expectedListOfPipelineRequests.add(docWriteRequest);
+        expectedListOfCodeRequests = new ArrayList<>();
+        expectedListOfCodeRequests.add(docWriteRequest);
         expectedPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
                 .pipelineId(1L)
-                .pipelineRequests(expectedListOfRequests)
-                .codeRequests(expectedListOfRequests)
+                .pipelineRequests(expectedListOfPipelineRequests)
+                .codeRequests(expectedListOfCodeRequests)
                 .build();
     }
 
@@ -163,7 +165,11 @@ class PipelineSynchronizerTest{
         when(pipelineSynchronizer
                 .buildDocRequests(expectedPipelineEvent.getObjectId(), expectedPipelineEventList, expectedPipelineIndex, expectedCodeIndex))
                 .thenReturn(expectedPipelineDocRequests);
-        pipelineSynchronizer.buildDocRequests(1L, actualPipelineEventList, "pipelineIndex", "codeIndex");
+        PipelineSynchronizer.PipelineDocRequests actualPipelineRequests = pipelineSynchronizer
+                .buildDocRequests(1L, actualPipelineEventList, "pipelineIndex", "codeIndex");
+        PipelineSynchronizer.PipelineDocRequests pipelineRequests = new PipelineSynchronizer
+                .PipelineDocRequests(expectedListOfPipelineRequests, expectedListOfCodeRequests, 1L);
+        assertEquals(pipelineRequests, actualPipelineRequests);
 
         doAnswer(invocationOnElasticIndexService -> {
             Object pipelineIndex = invocationOnElasticIndexService.getArgument(0);
@@ -251,8 +257,8 @@ class PipelineSynchronizerTest{
         String actualCodeIndex = "codeIndex";
         PipelineSynchronizer.PipelineDocRequests actualPipelineDocRequests = PipelineSynchronizer.PipelineDocRequests.builder()
                 .pipelineId(1L)
-                .pipelineRequests(expectedListOfRequests)
-                .codeRequests(expectedListOfRequests)
+                .pipelineRequests(expectedListOfPipelineRequests)
+                .codeRequests(expectedListOfCodeRequests)
                 .build();
 
         when(pipelineSynchronizer.buildDocRequests(expectedPipelineEvent.getObjectId(), expectedPipelineEventList, expectedPipelineIndex, expectedCodeIndex))
